@@ -1,0 +1,12 @@
+{
+    "tabs":{
+        "Dashboard":0,
+        "Analytics":1,
+        "Sales":2,
+        "Stores":3,
+        "Users":4,
+        "Product Sales":5,
+        "Reports":6
+    },
+    "apiUrl":"http://localhost:4004/api"
+}

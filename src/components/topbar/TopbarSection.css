@@ -1,0 +1,8 @@
+.topbarSectionWrapper {
+  position: fixed;
+  height: 200px;
+  width: 150px;
+  top: 60px;
+  background-color: white;
+  right: 10px;
+}

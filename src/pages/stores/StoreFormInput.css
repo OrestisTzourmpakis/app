@@ -1,0 +1,24 @@
+.storeFormInputWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px;
+}
+
+.storeFormInputField {
+  flex: 0.7;
+}
+
+.storeFormInputField input {
+  border: none;
+  background-color: rgb(234, 239, 239);
+  padding: 10px;
+  outline: none;
+  width: 100%;
+  border-radius: 5px;
+  font-size: 15px;
+  color: rgb(120, 130, 146);
+}
+
+@media only screen and (max-width: 600px) {
+}

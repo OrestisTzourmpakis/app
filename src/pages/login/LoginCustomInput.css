@@ -1,0 +1,25 @@
+.inputWrapper input[type="text"] {
+  border: 0;
+  padding: 10px;
+  font-size: 20px;
+  width: 100%;
+  outline: none !important;
+}
+
+.inputWrapper {
+  display: flex;
+  background-color: lightgray;
+  align-items: center;
+  border-radius: 5px;
+  padding: 2px;
+  width: 100%;
+}
+
+.inputWrapper .icon {
+  width: 20px;
+  height: 20px;
+}
+
+.inputWrapperIcon {
+  padding: 8px;
+}

@@ -1,0 +1,41 @@
+.widgetLgWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 10px;
+  max-width: 250px;
+
+  border-radius: 15px;
+}
+
+.widgetLgTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+.widgetLgBody {
+  display: flex;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.widgetLgBody .widgetLgIcon {
+  color: white;
+  height: 50px;
+  width: 50px;
+}
+
+.widgetLgBody h3 {
+  font-size: 34px;
+  color: white;
+}
+
+.widgetLgFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}

@@ -1,0 +1,20 @@
+.storesWrapper {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  height: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.storesTitle {
+  margin-bottom: 30px;
+}
+
+.storesTable {
+  background-color: white;
+  height: 400px;
+  width: 100%;
+  max-width: 800px;
+}
