@@ -2,15 +2,27 @@ import { Person, Lock } from "@mui/icons-material";
 import LoginCustomInput from "./LoginCustomInput";
 import "./LoginPage.css";
 import { login } from "../../services/userAccountService";
+import { useState } from "react";
 
 export default function LoginPage() {
+
+  const [errors, setErrors] = useState([]);
+
   const person = <Person className="icon" />;
   const password = <Lock className="icon" />;
 
-  const handleLoginClick = () => {
+  const handleLoginClick = async () => {
     try {
-      login("otzurbakis13@gmail.com", "Orestssis123!");
+      await login("otzurbakis13@gmail.com", "Orestssis123!");
     } catch (ex) {
+      const {
+        response: {
+          data: { errorMessage },
+        },
+      } = ex;
+      if (errorMessage)
+        
+      console.log(errorMessage);
       console.log(ex);
     }
   };
@@ -31,19 +43,9 @@ export default function LoginPage() {
           </div>
           <div className="errors">
             <ul className="errorsList">
-              <li>
-                Error1asflkjsadflkjaslkdfjaslkdjfasdklfalskdjf
-                lksajdflkasjdflkajsdf lkjasldkfjas lkjflkas jdflkajsl dkfjsak
-                ldfjlak sdjfals dkfj
-              </li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
-              <li>Error1</li>
+            {errors.map(error => (
+              <li>{ error}</li>
+            )) }
             </ul>
           </div>
           <button className="signInButton" onClick={() => handleLoginClick()}>

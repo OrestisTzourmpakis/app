@@ -1,5 +1,5 @@
 import Sidebar from "./components/sidebar/Sidebar";
-import "./app.css";
+import "./App.css";
 import { Grid, Box } from "@mui/material";
 import Topbar from "./components/topbar/Topbar";
 import LoginPage from "./pages/login/LoginPage";
