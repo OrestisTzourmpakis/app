@@ -1,6 +1,5 @@
 import React from "react";
 import "./WidgetLg.css";
-import { ShoppingCartOutlined } from "@mui/icons-material";
 
 export default function WidgetLg({
   style,

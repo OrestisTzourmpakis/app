@@ -5,7 +5,7 @@ import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
 import { Link } from "react-router-dom";
 
-export default function MenuTile({ item }) {
+export default function MenuTile({ item, mobile }) {
   console.log(item);
   // const { tab, changeTab } = useContext(TabContextProvider);
   const { tab, changeTab } = useContext(TabContext);
@@ -32,22 +32,29 @@ export default function MenuTile({ item }) {
     case tabs.Sales:
       newTab = "/sales";
       break;
+    case tabs.Companies:
+      newTab = "/companies";
+      break;
     default:
       newTab = "/";
       break;
   }
+
+  let classes = mobile ? "" : "menuTileWrapper";
+  let activeClass = mobile ? "" : "active";
+
   return (
     <Link
       to={newTab}
-      className={`menuTileWrapper ${item.tab === tab && "active"}`}
+      className={`${classes} ${item.tab === tab && activeClass}`}
       onClick={() => changeTab(item.tab)}
     >
       <div className="menuTileIconTitle">
         {/* <item.icon className="menuTileIcon" /> */}
-        {item.icon}
+        {!mobile && item.icon}
         <div className="menuTileTitle">{item.title}</div>
       </div>
-      <ArrowForwardIos className="menuTileArrow" />
+      {!mobile && <ArrowForwardIos className="menuTileArrow" />}
     </Link>
   );
 }

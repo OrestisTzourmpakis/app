@@ -3,10 +3,19 @@
         "Dashboard":0,
         "Analytics":1,
         "Sales":2,
-        "Stores":3,
+        "Companies":3,
         "Users":4,
         "Product Sales":5,
         "Reports":6
     },
-    "apiUrl":"http://localhost:4004/api"
+    "roles":{
+        "Administrator":"Administrator",
+        "CompanyOwner":"CompanyOwner"
+    },
+    "apiUrl":"http://localhost:4004/api",
+    "formTypes":{
+        "add":0,
+        "edit":1,
+        "view":2
+    }
 }

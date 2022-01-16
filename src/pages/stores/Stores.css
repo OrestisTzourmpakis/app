@@ -10,6 +10,22 @@
 
 .storesTitle {
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.addButton {
+  display: flex;
+  padding: 10px;
+  color: white;
+  border-radius: 10px;
+  transition: all 0.2 ease-in-out;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  transform: scale(1.1);
 }
 
 .storesTable {
@@ -17,4 +33,14 @@
   height: 400px;
   width: 100%;
   max-width: 800px;
+}
+
+.backButtonWrapper {
+  transition: all 0.2 ease-in-out;
+  cursor: pointer;
+}
+
+.backButtonIcon:hover {
+  color: rgb(45, 197, 139);
+  transform: scale(1.1);
 }

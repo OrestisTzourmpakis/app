@@ -1,30 +1,41 @@
-import { Person, Lock } from "@mui/icons-material";
+import { Person, Lock, RotateLeftSharp } from "@mui/icons-material";
 import LoginCustomInput from "./LoginCustomInput";
 import "./LoginPage.css";
-import { login } from "../../services/userAccountService";
-import { useState } from "react";
+import { login, checkIfExpired } from "../../services/userAccountService";
+import { useContext, useState } from "react";
+import { useAuth } from "../../contexts/userContext";
+import { roles } from "../../config.json";
+import { useNavigate } from "react-router-dom";
+import { handleErrors } from "../../utilities/handleErrors";
+import { UserContext } from "../../contexts/userContext";
 
 export default function LoginPage() {
-
   const [errors, setErrors] = useState([]);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const person = <Person className="icon" />;
-  const password = <Lock className="icon" />;
+  const passwordIcon = <Lock className="icon" />;
+  const { userLogin } = useContext(UserContext);
+  let navigate = useNavigate();
 
   const handleLoginClick = async () => {
     try {
-      await login("otzurbakis13@gmail.com", "Orestssis123!");
+      setErrors([]);
+      await userLogin(email, password);
+      // setErrors(["hello there", "this is an error"]);
+      navigate("/");
+      // const check = checkIfExpired();
     } catch (ex) {
-      const {
-        response: {
-          data: { errorMessage },
-        },
-      } = ex;
-      if (errorMessage)
-        
-      console.log(errorMessage);
+      handleErrors(ex, setErrors);
       console.log(ex);
     }
+  };
+
+  const handleEmailChange = (newValue) => {
+    setEmail(newValue.target.value);
+  };
+  const handlePasswordChange = (newValue) => {
+    setPassword(newValue.target.value);
   };
 
   return (
@@ -36,16 +47,25 @@ export default function LoginPage() {
             <h3>Login</h3>
           </div>
           <div className="loginInput">
-            <LoginCustomInput Icon={person} />
+            <LoginCustomInput
+              Icon={person}
+              value={email}
+              handleOnChange={handleEmailChange}
+            />
           </div>
           <div className="loginIput">
-            <LoginCustomInput Icon={password} />
+            <LoginCustomInput
+              Icon={passwordIcon}
+              value={password}
+              type="password"
+              handleOnChange={handlePasswordChange}
+            />
           </div>
           <div className="errors">
             <ul className="errorsList">
-            {errors.map(error => (
-              <li>{ error}</li>
-            )) }
+              {errors.map((error) => (
+                <li>{error}</li>
+              ))}
             </ul>
           </div>
           <button className="signInButton" onClick={() => handleLoginClick()}>

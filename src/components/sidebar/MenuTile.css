@@ -29,3 +29,21 @@
   background-color: rgb(48, 57, 75);
   border-left: 3px solid rgb(45, 197, 139);
 }
+
+.menuTileWrapper .activeMobile {
+  color: white;
+  background-color: rgb(45, 197, 139);
+}
+
+.menuTileWrapperMobile {
+  display: flex;
+  align-items: center;
+  color: rgb(120, 130, 146);
+  text-decoration: none;
+}
+
+/* .menuTileWrapperMobile:hover {
+  background-color: rgb(45, 197, 139);
+  cursor: pointer;
+  color: white;
+} */
