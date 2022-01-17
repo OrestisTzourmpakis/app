@@ -6,7 +6,8 @@
         "Companies":3,
         "Users":4,
         "Product Sales":5,
-        "Reports":6
+        "Reports":6,
+        "Stores":7
     },
     "roles":{
         "Administrator":"Administrator",

@@ -11,6 +11,7 @@ import {
 
 export function useAuth() {
   const [authed, setAuthed] = useState({
+    id: "",
     username: "",
     email: "",
     role: "",
@@ -28,6 +29,7 @@ export function useAuth() {
       : roles.CompanyOwner;
     // se the user here!!
     const userObject = {
+      id: userDetails.id,
       username: userDetails.userName,
       email: userDetails.email,
       role: userRole,

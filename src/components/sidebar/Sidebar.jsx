@@ -2,9 +2,8 @@ import { LogoDev } from "@mui/icons-material";
 import React from "react";
 import MenuComponent from "./MenuComponent";
 import "./Sidebar.css";
-import { dashboardMenu } from "../../utilities/data";
 
-export default function Sidebar() {
+export default function Sidebar({ menu }) {
   return (
     <div className="sidebar">
       <div className="sidebarTitleWrapper">
@@ -13,7 +12,7 @@ export default function Sidebar() {
       </div>
       <hr className="white" />
       <div className="menu">
-        <MenuComponent items={dashboardMenu} />
+        <MenuComponent items={menu} />
       </div>
     </div>
   );

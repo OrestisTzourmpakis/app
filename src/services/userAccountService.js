@@ -2,12 +2,13 @@ import http, { setJwt} from "./httpService";
 import { apiUrl } from "../config.json";
 import jwtDecode from "jwt-decode";
 
-const apiEndpoint = apiUrl + "/useraccount/login";
+const apiEndpoint = apiUrl + "/useraccount/";
 const tokenKey = "token";
 const userObject = "user";
 export async function login(email,password)
 {
-    const {data} = await http.post(apiEndpoint,{email,password});
+    let login = apiEndpoint +"login";
+    const {data} = await http.post(login,{email,password});
   
     // save the user info too..
     return data;
@@ -59,8 +60,10 @@ export function checkIfExpired() {
     }
 }
   
-export async function register() {
-    
+export async function register(user) {
+    let registerUser = apiEndpoint +"register";
+    const result = await http.post(registerUser,user);
+    return result;
 }
 
 export async function updateAccount() {

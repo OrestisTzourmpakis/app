@@ -9,7 +9,7 @@ import DataTablePageTemplate from "../../components/common/dataTablePageTemplate
 
 function Users() {
   const [users, setUsers] = useState([]);
-  const { changeTab } = useContext(TabContext);
+  const { changeTab, authed } = useContext(TabContext);
   const location = useLocation();
   useEffect(async () => {
     changeTab(tabs.Users);

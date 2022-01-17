@@ -18,7 +18,7 @@ import Topbar from "../components/topbar/Topbar";
 import Stores from "../pages/stores/Stores";
 import Profile from "./profile/Profile";
 import { Link } from "react-router-dom";
-import { tabs, formTypes } from "../config.json";
+import { tabs, formTypes, roles } from "../config.json";
 import MenuTile from "../components/sidebar/MenuTile";
 import { dashboardMenu } from "../utilities/data";
 import RequireAuth from "../utilities/requireAuth";
@@ -26,24 +26,37 @@ import FormTemplate from "../components/common/formTemplate";
 import Users from "./users/users";
 import Company from "./companies/Company";
 import UserPoints from "./users/userPoints";
-import { useAuth, UserContext } from "../contexts/userContext";
+import { UserContext } from "../contexts/userContext";
 import { useContext } from "react";
 import Sales from "./sales/sales";
 
 function MainPage() {
   const [hide, setHide] = useState(true);
   const { setUserContextObject, authed } = useContext(UserContext);
+  const [menu, setMenu] = useState([]);
   // if true hide topbar section
   const [toggleTopbarSection, setToggleTopbarSection] = useState(true);
   const hideMenu = () => {
     setHide(!hide);
   };
 
+  const setDashboardMenu = () => {
+    let tempMenu = [];
+    if (authed.role === roles.Administrator) {
+      tempMenu = dashboardMenu.filter((c) => c.tab !== tabs.Stores);
+    } else {
+      tempMenu = dashboardMenu.filter((c) => c.tab !== tabs.Companies);
+    }
+    console.log(`To menu:`);
+    console.log(tempMenu);
+    setMenu(tempMenu);
+  };
+
   useEffect(() => {
     console.log("hello there!!!");
     setUserContextObject();
+    setDashboardMenu();
   }, []);
-
   const handleClick = () => {
     if (!toggleTopbarSection) {
       setToggleTopbarSection(!toggleTopbarSection);
@@ -51,6 +64,7 @@ function MainPage() {
   };
   console.log("Authed object:");
   console.log(authed);
+  console.log(menu);
   return (
     <TabContextProvider>
       <TabbarSectionContextProvider>
@@ -65,7 +79,7 @@ function MainPage() {
             </div>
             <div className="mobileNavigationList">
               <ul className="sidebarLightGray">
-                {dashboardMenu.map((item) => (
+                {menu.map((item) => (
                   <li key={item.id} onClick={() => hideMenu()}>
                     <MenuTile item={item} mobile={true} />
                   </li>
@@ -80,7 +94,7 @@ function MainPage() {
               md={2}
               display={{ xs: "none", md: "block" }}
             >
-              <Sidebar />
+              <Sidebar menu={menu} />
             </Box>
             <Grid item md={10} xs={12} className="mainPageWithTopBar">
               <Grid container className="fullHeight">
@@ -105,7 +119,7 @@ function MainPage() {
                       path="stores"
                       element={
                         <RequireAuth>
-                          <Stores id={5} />
+                          <Stores />
                         </RequireAuth>
                       }
                     />
@@ -146,6 +160,23 @@ function MainPage() {
                               dateEnd: 0,
                             }}
                             formType={formTypes.view}
+                          />
+                        </RequireAuth>
+                      }
+                    />
+                    <Route
+                      path="sales/add"
+                      element={
+                        <RequireAuth>
+                          <FormTemplate
+                            data={{
+                              title: "",
+                              description: "",
+                              image: "",
+                              dateStart: 0,
+                              dateEnd: 0,
+                            }}
+                            formType={formTypes.add}
                           />
                         </RequireAuth>
                       }
@@ -288,7 +319,9 @@ function MainPage() {
                               userName: "",
                               email: "",
                               password: "",
+                              owner: false,
                             }}
+                            ignoreKeys={{ owner: "" }}
                             formType={formTypes.add}
                           />
                         </RequireAuth>

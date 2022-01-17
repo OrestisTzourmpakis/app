@@ -26,10 +26,16 @@ import { ArrowBack } from "@mui/icons-material";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-function FormTemplate({ data, formType }) {
+function FormTemplate({ data, formType, ignoreKeys }) {
+  let ignordeValues = {};
+  let keys = Object.keys(data);
+  for (let key in ignoreKeys) {
+    // move the item to a new object
+  }
   const location = useLocation();
   console.log("------Location state in formtemplate!!");
   console.log(location);
+  console.log(data);
   const dataTest = location.state;
   const setPointsPage = location.pathname.includes("setPoints") ? true : false;
   const redeemPointsPage = location.pathname.includes("redeemPoints")
@@ -215,17 +221,22 @@ function FormTemplate({ data, formType }) {
             )}
             {!setPointsPage && !redeemPointsPage && (
               <>
-                {Object.keys(data).map((key) => (
-                  <>
-                    <FormInput
-                      label={key}
-                      key={key}
-                      value={details[key]}
-                      valueChange={updateValue}
-                      disableInput={handleDisableInput()}
-                    />
-                  </>
-                ))}
+                {Object.keys(data).map((key) => {
+                  console.log(`To key:${key}`);
+                  console.log("asidufhaskfuhaksdfiuhkasdfiu");
+                  if (_.has(ignoreKeys, key)) return;
+                  return (
+                    <>
+                      <FormInput
+                        label={key}
+                        key={key}
+                        value={details[key]}
+                        valueChange={updateValue}
+                        disableInput={handleDisableInput()}
+                      />
+                    </>
+                  );
+                })}
               </>
             )}
           </div>

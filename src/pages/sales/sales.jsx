@@ -78,7 +78,7 @@ function Sales() {
         return (
           <Link
             to={`${location.pathname}/updateSale`}
-            state={{ ...params.row }}
+            state={{ ...params.row, data: addSale }}
           >
             Update
           </Link>
