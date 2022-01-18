@@ -32,39 +32,23 @@ import Sales from "./sales/sales";
 
 function MainPage() {
   const [hide, setHide] = useState(true);
-  const { setUserContextObject, authed } = useContext(UserContext);
-  const [menu, setMenu] = useState([]);
+  const { setUserContextObject, isAdmin, authed, menu } =
+    useContext(UserContext);
+  // const [menu, setMenu] = useState([]);
   // if true hide topbar section
   const [toggleTopbarSection, setToggleTopbarSection] = useState(true);
   const hideMenu = () => {
     setHide(!hide);
   };
-
-  const setDashboardMenu = () => {
-    let tempMenu = [];
-    if (authed.role === roles.Administrator) {
-      tempMenu = dashboardMenu.filter((c) => c.tab !== tabs.Stores);
-    } else {
-      tempMenu = dashboardMenu.filter((c) => c.tab !== tabs.Companies);
-    }
-    console.log(`To menu:`);
-    console.log(tempMenu);
-    setMenu(tempMenu);
-  };
-
   useEffect(() => {
     console.log("hello there!!!");
     setUserContextObject();
-    setDashboardMenu();
   }, []);
   const handleClick = () => {
     if (!toggleTopbarSection) {
       setToggleTopbarSection(!toggleTopbarSection);
     }
   };
-  console.log("Authed object:");
-  console.log(authed);
-  console.log(menu);
   return (
     <TabContextProvider>
       <TabbarSectionContextProvider>

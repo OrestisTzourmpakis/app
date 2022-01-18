@@ -20,6 +20,10 @@ function Sales() {
     setSales(data);
   }, []);
 
+  const handleAdd = async (neew) => {
+    await addSale(neew);
+  };
+
   const columns = [
     {
       field: "id",
@@ -63,6 +67,7 @@ function Sales() {
             to={`${location.pathname}/viewSale`}
             state={{
               ...params.row,
+              addMethod: addSale,
             }}
           >
             View
@@ -78,7 +83,7 @@ function Sales() {
         return (
           <Link
             to={`${location.pathname}/updateSale`}
-            state={{ ...params.row, data: addSale }}
+            state={{ ...params.row }}
           >
             Update
           </Link>

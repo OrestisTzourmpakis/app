@@ -1,5 +1,6 @@
 import React, { createContext, useState } from "react";
-import { roles } from "../config.json";
+import { useEffect } from "react";
+import { roles, tabs } from "../config.json";
 import {
   login,
   logout,
@@ -8,6 +9,7 @@ import {
   setUser,
   getUser,
 } from "../services/userAccountService";
+import { dashboardMenu } from "../utilities/data";
 
 export function useAuth() {
   const [authed, setAuthed] = useState({
@@ -16,7 +18,18 @@ export function useAuth() {
     email: "",
     role: "",
     authed: false,
+    companyId: null,
   });
+  const [menu, setMenu] = useState(dashboardMenu);
+
+  useEffect(() => {
+    if (isAdmin()) {
+      setMenu(dashboardMenu.filter((c) => c.tab !== tabs.Stores));
+    } else {
+      setMenu(dashboardMenu.filter((c) => c.tab !== tabs.Companies));
+    }
+  }, [authed]);
+
   const userLogin = async (email, password) => {
     const userDetails = await login(email, password);
     const checkIfAdmin = userDetails.roles.filter(
@@ -33,12 +46,20 @@ export function useAuth() {
       username: userDetails.userName,
       email: userDetails.email,
       role: userRole,
+      companyId: userDetails.companyId,
     };
     setUser(userObject);
     setAuthed({ ...userObject, authed: true });
   };
   const setUserContextObject = () => {
     setAuthed({ ...getUser(), authed: true });
+  };
+  const isAdmin = () => {
+    if (authed.role === roles.Administrator) {
+      return true;
+    } else {
+      return false;
+    }
   };
 
   return {
@@ -47,6 +68,8 @@ export function useAuth() {
     logout,
     checkIfExpired,
     setUserContextObject,
+    isAdmin,
+    menu,
   };
 }
 

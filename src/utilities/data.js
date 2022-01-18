@@ -57,6 +57,6 @@ export const dashboardMenu = [
     id: 8,
     icon: <Store className="menuTileIcon" />,
     title: "Stores",
-    tab: tabs.Store,
+    tab: tabs.Stores,
   },
   ];

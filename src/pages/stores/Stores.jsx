@@ -6,24 +6,29 @@ import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
 import { Link, useLocation } from "react-router-dom";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
-import { getStoreById } from "../../services/storeService";
+import { getStoreById, getStoreByEmail } from "../../services/storeService";
+import { UserContext } from "../../contexts/userContext";
 
-export default function Stores({ id }) {
+export default function Stores() {
   const { changeTab } = useContext(TabContext);
+  const { isAdmin, authed } = useContext(UserContext);
   const [stores, setStores] = useState([]);
   const location = useLocation();
-  const [companyId, setCompanyId] = useState(id ? id : location.state.id);
+  const [companyId, setCompanyId] = useState(0);
   console.log(`Stores location:${location.pathname}`);
   useEffect(async () => {
     try {
       console.log(`To company id:${companyId}`);
-      if (id) {
-        changeTab(tabs.Stores);
-      } else {
+      if (isAdmin()) {
         changeTab(tabs.Companies);
+        const { data: allStores } = await getStoreById(location.state.id);
+        setStores(allStores);
+      } else {
+        changeTab(tabs.Stores);
+        const { data: store } = await getStoreByEmail(authed.email);
+        setStores(store);
+        setCompanyId(authed.companyId);
       }
-      const { data } = await getStoreById(companyId);
-      setStores(data);
     } catch (ex) {
       // show snackbar? that something went wrong on loading the data!
       console.log(ex);
