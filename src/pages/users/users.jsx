@@ -6,11 +6,15 @@ import { tabs } from "../../config.json";
 import { Link } from "react-router-dom";
 import { getAllUsers } from "../../services/userService";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
+import { FormContext } from "../../contexts/formContext";
 
 function Users() {
   const [users, setUsers] = useState([]);
+  const data = useContext(FormContext);
   const { changeTab, authed } = useContext(TabContext);
   const location = useLocation();
+  console.log("Ta data");
+  console.log(data);
   useEffect(async () => {
     changeTab(tabs.Users);
     try {
@@ -74,12 +78,15 @@ function Users() {
     ,
   ];
   return (
-    <DataTablePageTemplate
-      title="Users"
-      columns={columns}
-      row={users}
-      hideBackButton={location.pathname === "/users" ? true : false}
-    />
+    <>
+      <button onClick={data.methods.addMethod}>adfsadfasdfasd</button>
+      <DataTablePageTemplate
+        title="Users"
+        columns={columns}
+        row={users}
+        hideBackButton={location.pathname === "/users" ? true : false}
+      />
+    </>
   );
 }
 
