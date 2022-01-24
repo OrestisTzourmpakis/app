@@ -13,7 +13,7 @@
         "Administrator":"Administrator",
         "CompanyOwner":"CompanyOwner"
     },
-    "apiUrl":"http://localhost:4004/api",
+    "apiUrl":"https://localhost:4004/api",
     "formTypes":{
         "add":0,
         "edit":1,
