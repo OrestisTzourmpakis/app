@@ -20,14 +20,6 @@ export async function getStoreById(id)
     return data;
 }
 
-
-export async function getStoreByEmail(email)
-{
-    let getStores = apiEndpoint+`getStores?email=${email}`;
-    const { data } = await http.get(getStores);
-    return data;
-}
-
 export async function updateStore(store)
 {
     let updateStore = apiEndpoint + `updateStore`;
@@ -41,3 +33,13 @@ export async function deleteStore(id)
     const { data } = await http.delete(deleteStore);
     return data;
 }
+
+export async function getStores(id)
+{
+    let getStores = apiEndpoint +`getStores?id=${id}`;
+    const {data} = await http.get(getStores);
+    return data;
+}
+
+export async function getStoreByEmail(aa)
+{}

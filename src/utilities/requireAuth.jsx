@@ -25,7 +25,7 @@ function RequireAuth({ children, admin }) {
   //   setUserContextObject();
   // }
   //return true ? children : <Navigate to="/login" replace />;
-  return isExpired ? navigateFunction() : <Navigate to="/login" replace />;
+  return true ? navigateFunction() : <Navigate to="/login" replace />;
 }
 
 export default RequireAuth;
