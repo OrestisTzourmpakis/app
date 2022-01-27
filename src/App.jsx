@@ -5,6 +5,8 @@ import { useState, useContext } from "react";
 import { tabs } from "./config.json";
 import { TabContext } from "./contexts/tabContext";
 import MainPage from "./pages/mainPage";
+import { createTheme } from "@mui/material/styles";
+import { orange } from "@mui/material/colors";
 
 function App() {
   return (

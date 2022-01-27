@@ -102,3 +102,10 @@ export async function googleLogin()
     
     //return result;
 }
+
+export async function checkUserRole(email)
+{
+    let checkUser = apiEndpoint + `checkRole?email=${email}`;
+    const { data } = await http.get(checkUser);
+    return data;
+}

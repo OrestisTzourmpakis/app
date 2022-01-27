@@ -61,7 +61,7 @@ function DataTablePageTemplate({
             rows={row}
             columns={columns}
             pageSize={5}
-            getRowId={(row) => (row.company?.id ? row.company.id : row.id)}
+            getRowId={(row) => (row.id ? row.id : row.company.id)}
             rowsPerPageOptions={[5]}
             checkboxSelection
           />

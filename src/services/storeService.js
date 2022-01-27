@@ -41,5 +41,9 @@ export async function getStores(id)
     return data;
 }
 
-export async function getStoreByEmail(aa)
-{}
+export async function getStoreByEmail(email)
+{
+    let getStores = apiEndpoint +`getStores?email=${email}`;
+    const {data} = await http.get(getStores);
+    return data;
+}

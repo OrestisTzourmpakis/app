@@ -14,8 +14,11 @@ export async function getAllCompanies()
 
 export async function addCompany(newCompany)
 {
+    console.log("Add Company model:");
+    console.log(newCompany);
     newCompany.pointsToEuroRatio = newCompany.pointsToEuro;
     newCompany.euroToPointsRatio = newCompany.euroToPoints;
+    newCompany.email = newCompany.ownerEmail;
     let addNew = apiEndpoint + "addCompany";
     newCompany.email = newCompany.ownerEmail;
     console.log(newCompany);
@@ -40,9 +43,17 @@ export async function updateCompany(company)
 }
 
 
-export async function assignUserToCompany(companyId, userEmail)
+// export async function assignUserToCompany(companyId, userEmail)
+// {
+//     let model = { Id: companyId, email: userEmail };
+//     let assignToCompany = apiEndpoint + `addUserToCompany`;
+//     const { data } = await http.post(assignToCompany, model);
+//     return data;
+// }
+
+export async function assignUserToCompany(model)
 {
-    let model = { Id: companyId, email: userEmail };
+    // let model = { Id: companyId, email: userEmail };
     let assignToCompany = apiEndpoint + `addUserToCompany`;
     const { data } = await http.post(assignToCompany, model);
     return data;

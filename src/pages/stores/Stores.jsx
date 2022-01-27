@@ -11,23 +11,26 @@ import { UserContext } from "../../contexts/userContext";
 
 export default function Stores() {
   const { changeTab } = useContext(TabContext);
+  const [locationState, setLocationState] = useState();
   const { isAdmin, authed } = useContext(UserContext);
   const [stores, setStores] = useState([]);
   const location = useLocation();
-  const [companyId, setCompanyId] = useState(0);
+  // const [companyId, setCompanyId] = useState(null);
   console.log(`Stores location:${location.pathname}`);
   useEffect(async () => {
     try {
-      console.log(`To company id:${companyId}`);
+      // console.log(`To company id:${companyId}`);
       if (isAdmin()) {
         changeTab(tabs.Companies);
         const { data: allStores } = await getStoreById(location.state.id);
         setStores(allStores);
+        setLocationState({ CompanyId: location.state.id });
       } else {
         changeTab(tabs.Stores);
         const { data: store } = await getStoreByEmail(authed.email);
         setStores(store);
-        setCompanyId(authed.companyId);
+        // setCompanyId(authed.companyId);
+        setLocationState({ OwnerEmail: authed.email });
       }
     } catch (ex) {
       // show snackbar? that something went wrong on loading the data!
@@ -58,7 +61,7 @@ export default function Stores() {
       title="Stores"
       row={stores}
       columns={columns}
-      locationState={{ CompanyId: companyId }}
+      locationState={{ ...locationState }}
     />
   );
 }

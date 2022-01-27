@@ -2,13 +2,16 @@ import React from "react";
 import { useState } from "react";
 import FormInput from "./formInput";
 import _ from "lodash";
-import { formTypes } from "../../config.json";
-import { addCompany, updateCompany } from "../../services/companyService";
+import { formTypes, formTemplates } from "../../config.json";
+import {
+  addCompany,
+  updateCompany,
+  assignUserToCompany,
+} from "../../services/companyService";
 import { addStore, updateStore } from "../../services/storeService";
 import { register, updateAccount } from "../../services/userAccountService";
 import {
   updatePoints,
-  assignUserToCompany,
   addPoints,
   redeemPoints,
 } from "../../services/pointsService";
@@ -22,29 +25,29 @@ import { red } from "@mui/material/colors";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { ArrowBack } from "@mui/icons-material";
+import CompanyForm from "../../pages/companies/companyForm";
+import UserForm from "../../pages/users/userForm";
+import SalesForm from "../../pages/sales/salesForms";
+import PointsForm from "../../pages/users/pointsForm";
+import StoresForm from "../../pages/stores/storesForm";
+import AssignUserToCompany from "../../pages/companies/assignUserToCompany";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
-function FormTemplate({ data, formType, ignoreKeys }) {
-  let ignordeValues = {};
-  let keys = Object.keys(data);
-  for (let key in ignoreKeys) {
-    // move the item to a new object
-  }
+function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
   const location = useLocation();
   console.log("------Location state in formtemplate!!");
   console.log(location);
   console.log(data);
   const dataTest = location.state;
-  const setPointsPage = location.pathname.includes("setPoints") ? true : false;
-  const redeemPointsPage = location.pathname.includes("redeemPoints")
-    ? true
-    : false;
+  const redeemPointsPage =
+    formTemplate === formTemplates.redeemPoints ? true : false;
   console.log(dataTest);
   const resultt = { ...data, ...dataTest };
   const [initialValue, setInitialValue] = useState({ ...resultt });
   const [details, setDetails] = useState({ ...data, ...dataTest });
+  const [isRedeemPage, setIsRedeemPage] = useState(false);
   console.log("Details of formTemplate:");
   console.log(details);
   const [errors, setErrors] = useState([]);
@@ -56,50 +59,108 @@ function FormTemplate({ data, formType, ignoreKeys }) {
   const [formMethods, setFormMethods] = useState({
     addMethod: () => {},
     updateMethod: () => {},
+    renderForm: () => {},
   });
 
   useEffect(() => {
     // initialize the endpoints!!
     checkEndPoint();
-  }, []);
+  }, [details, edit]);
 
   // const initialValue = data;
   const updateValue = (key, newValue) => {
-    console.log("The key:{key}");
-    console.log(key);
-    console.log(newValue);
+    console.log("Update key and value!!!");
+    console.log(`To key:${key} and the new value:${newValue}`);
+    console.log("Ne value bitch");
     const prevState = { ...details };
     _.set(prevState, key, newValue);
-    console.log(prevState);
-    setDetails(prevState);
-    console.log(details);
+    setDetails({ ...prevState });
   };
   const checkEndPoint = () => {
-    let path = location.pathname;
+    console.log("Current form Template:");
+    console.log(formTemplate);
     const methods = { ...formMethods };
-    // methods.addMethod = location.state.methods.da1;
-    // methods.updateMethod = location.state.methods.da2;
-    if (path.includes("store")) {
-      methods.addMethod = addStore;
-      methods.updateMethod = updateStore;
-    } else if (path.includes("compa")) {
-      methods.addMethod = addCompany;
-      methods.updateMethod = updateCompany;
-    } else if (path.includes("setPoints")) {
-      methods.addMethod = addPoints;
-    } else if (path.includes("redeemPoints")) {
-      console.log("Bhke sto redeem points gia na valei to function!");
-      methods.addMethod = redeemPoints;
-    } else if (path.includes("userPoints")) {
-      methods.addMethod = assignUserToCompany;
-      methods.updateMethod = updatePoints;
-    } else if (path.includes("user")) {
-      methods.addMethod = register;
-      methods.updateMethod = updateAccount;
-    } else if (path.includes("sale")) {
-      methods.addMethod = addSale;
-      methods.updateMethod = updateSale;
+    switch (formTemplate) {
+      case formTemplates.company:
+        methods.addMethod = addCompany;
+        methods.updateMethod = updateCompany;
+        methods.renderForm = (
+          <CompanyForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+          />
+        );
+        break;
+      case formTemplates.users:
+        methods.addMethod = register;
+        methods.updateMethod = updateAccount;
+        methods.renderForm = (
+          <UserForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+            formType={formType}
+            setDetails={setDetails}
+          />
+        );
+        break;
+      case formTemplates.sales:
+        methods.addMethod = addSale;
+        methods.updateMethod = updateSale;
+        methods.renderForm = (
+          <SalesForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+            setDetails={setDetails}
+          />
+        );
+        break;
+      case formTemplates.stores:
+        methods.addMethod = addStore;
+        methods.updateMethod = updateStore;
+        methods.renderForm = (
+          <StoresForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+          />
+        );
+        break;
+      case formTemplates.assignUser:
+        methods.addMethod = assignUserToCompany;
+        methods.renderForm = (
+          <AssignUserToCompany
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+          />
+        );
+        break;
+      case formTemplates.addPoints:
+        methods.addMethod = addPoints;
+        methods.updateMethod = updatePoints;
+        methods.renderForm = (
+          <PointsForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+          />
+        );
+        break;
+      case formTemplates.redeemPoints:
+        methods.addMethod = redeemPoints;
+        methods.renderForm = (
+          <PointsForm
+            details={details}
+            updateValue={updateValue}
+            handleDisableInput={handleDisableInput}
+            redeem={true}
+          />
+        );
     }
+
     setFormMethods({ ...methods });
   };
   const handleDisableInput = () => {
@@ -149,22 +210,6 @@ function FormTemplate({ data, formType, ignoreKeys }) {
     setShowSnackbar(false);
   };
 
-  const handleAddClick = async () => {
-    // validation!!
-    // setShowSnackbar(true);
-    try {
-      setLoading(true);
-      setErrors([]);
-      const result = await formMethods.addMethod({ ...details });
-    } catch (ex) {
-      console.log(ex);
-      handleErrors(ex, setErrors);
-    } finally {
-      setLoading(false);
-    }
-    // console.log(result);
-  };
-
   const handleCancelClick = () => {
     setEdit(false);
     setDetails({ ...initialValue });
@@ -178,8 +223,8 @@ function FormTemplate({ data, formType, ignoreKeys }) {
           <ArrowBack className="backButtonIcon" />
         </div>
         <div className="storeDetailsWrapper">
-          {}
-          <div className="storeDetailsForm">
+          {formMethods.renderForm}
+          {/* <div className="storeDetailsForm">
             {setPointsPage && (
               <>
                 <h4>
@@ -228,6 +273,7 @@ function FormTemplate({ data, formType, ignoreKeys }) {
                   return (
                     <>
                       <FormInput
+                        objKey={key}
                         label={key}
                         key={key}
                         value={details[key]}
@@ -239,7 +285,7 @@ function FormTemplate({ data, formType, ignoreKeys }) {
                 })}
               </>
             )}
-          </div>
+          </div> */}
           <div
             className={`storeDetailsButtons ${loading ? "loadingButton" : ""}`}
           >

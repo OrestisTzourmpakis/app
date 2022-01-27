@@ -6,14 +6,25 @@
 }
 
 .storeFormInputLabel {
-  width: 20%;
+  width: 30%;
 }
 
 .storeFormInputField {
-  width: 70%;
+  width: 60%;
 }
 
-.storeFormInputField input {
+.imageForm {
+  width: 80px;
+  height: 80px;
+}
+
+.imageForm img {
+  width: 90%;
+  height: 90%;
+  border-radius: 15px;
+}
+
+.storeFormInputField input:not([type="file"]) {
   border: none;
   background-color: rgb(234, 239, 239);
   padding: 10px;
@@ -22,6 +33,14 @@
   border-radius: 5px;
   font-size: 15px;
   color: rgb(120, 130, 146);
+}
+
+/* .storeFormInputField input[type="file"] {
+  display: none;
+} */
+
+.imageFormWrapper {
+  align-items: center;
 }
 
 @media only screen and (max-width: 600px) {

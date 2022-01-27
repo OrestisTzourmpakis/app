@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
 import { Link, useLocation } from "react-router-dom";
@@ -11,12 +11,17 @@ import {
 } from "../../services/salesService";
 import { useState } from "react";
 import { useEffect } from "react";
+import { UserContext } from "../../contexts/userContext";
 function Sales() {
   const [sales, setSales] = useState([]);
+  const { authed } = useContext(UserContext);
+  const userEmail = authed.email;
   const location = useLocation();
   useEffect(async () => {
     // get the company id from the
-    const { data } = await getSaleById(1);
+    // get the context!!
+
+    const { data } = await getSaleById(userEmail);
     setSales(data);
   }, []);
 
@@ -64,10 +69,9 @@ function Sales() {
       renderCell: (params) => {
         return (
           <Link
-            to={`${location.pathname}/viewSale`}
+            to={`/sales/${params.id}`}
             state={{
               ...params.row,
-              addMethod: addSale,
             }}
           >
             View
@@ -91,7 +95,14 @@ function Sales() {
       },
     },
   ];
-  return <DataTablePageTemplate title="Sales" row={sales} columns={columns} />;
+  return (
+    <DataTablePageTemplate
+      title="Sales"
+      row={sales}
+      columns={columns}
+      locationState={{ Email: userEmail }}
+    />
+  );
 }
 
 export default Sales;

@@ -13,14 +13,26 @@ export async function getAllSales()
 
 export async function addSale(newSale)
 {
+    console.log("Sales add!!!To model:");
+    console.log(newSale);
+    const formData = new FormData();
+    formData.append("imageFile",newSale.imageFile);
+    formData.append("image",newSale.image)
+    formData.append("title", "O titles boy")
+    formData.append("dateStart", newSale.dateStart);
+    formData.append("dateEnd", newSale.dateEnd);
+    formData.append("description", newSale.description);
+    formData.append("email", newSale.email);
+    console.log("To formData model mou");
+    console.log(formData);
     let addNew = apiEndpoint + "addSale";
-    const { data } = await http.post(addNew, newSale);
+    const { data } = await http.post(addNew, formData);
     return data;
 }
 
-export async function getSaleById(id)
+export async function getSaleById(email)
 {
-    let getSales = apiEndpoint+`getSales?Id=${id}`;
+    let getSales = apiEndpoint+`getSales?email=${email}`;
     const { data } = await http.get(getSales);
     console.log("Ta sales!!!::::");
     console.log(data);

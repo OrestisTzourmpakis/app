@@ -18,7 +18,7 @@ import Topbar from "../components/topbar/Topbar";
 import Stores from "../pages/stores/Stores";
 import Profile from "./profile/Profile";
 import { Link } from "react-router-dom";
-import { tabs, formTypes, roles } from "../config.json";
+import { tabs, formTypes, roles, formTemplates } from "../config.json";
 import MenuTile from "../components/sidebar/MenuTile";
 import { dashboardMenu } from "../utilities/data";
 import RequireAuth from "../utilities/requireAuth";
@@ -30,6 +30,16 @@ import { UserContext } from "../contexts/userContext";
 import { useContext } from "react";
 import Sales from "./sales/sales";
 import FormContextProvoder from "../contexts/formContext";
+import { addCompany, updateCompany } from "../services/companyService";
+import { addStore, updateStore } from "../services/storeService";
+import { register, updateAccount } from "../services/userAccountService";
+import {
+  updatePoints,
+  assignUserToCompany,
+  addPoints,
+  redeemPoints,
+} from "../services/pointsService";
+import { addSale, updateSale } from "../services/salesService";
 
 function MainPage() {
   const [hide, setHide] = useState(true);
@@ -134,7 +144,7 @@ function MainPage() {
                         }
                       />
                       <Route
-                        path="sales/viewSale"
+                        path="sales/:saleId"
                         element={
                           <RequireAuth>
                             <FormTemplate
@@ -146,6 +156,8 @@ function MainPage() {
                                 dateEnd: 0,
                               }}
                               formType={formTypes.view}
+                              updateMethod={updateSale}
+                              formTemplate={formTemplates.sales}
                             />
                           </RequireAuth>
                         }
@@ -161,8 +173,11 @@ function MainPage() {
                                 image: "",
                                 dateStart: 0,
                                 dateEnd: 0,
+                                imageFile: null,
                               }}
                               formType={formTypes.add}
+                              addMethod={addSale}
+                              formTemplate={formTemplates.sales}
                             />
                           </RequireAuth>
                         }
@@ -191,6 +206,23 @@ function MainPage() {
                                 address: "",
                               }}
                               formType={formTypes.view}
+                              addMethod={addStore}
+                              updateMethod={updateStore}
+                              formTemplate={formTemplates.stores}
+                            />
+                          </RequireAuth>
+                        }
+                      />
+                      <Route
+                        path={`stores/assignUser`}
+                        element={
+                          <RequireAuth>
+                            <FormTemplate
+                              data={{
+                                email: "",
+                              }}
+                              formType={formTypes.add}
+                              formTemplate={formTemplates.assignUser}
                             />
                           </RequireAuth>
                         }
@@ -204,6 +236,9 @@ function MainPage() {
                                 address: "",
                               }}
                               formType={formTypes.add}
+                              addMethod={addStore}
+                              updateMethod={updateStore}
+                              formTemplate={formTemplates.stores}
                             />
                           </RequireAuth>
                         }
@@ -225,6 +260,7 @@ function MainPage() {
                                 euroToPoints: 0,
                               }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.company}
                             />
                           </RequireAuth>
                         }
@@ -245,6 +281,7 @@ function MainPage() {
                                 euroToPoints: 0,
                               }}
                               formType={formTypes.view}
+                              formTemplate={formTemplates.company}
                             />
                           </RequireAuth>
                         }
@@ -266,6 +303,7 @@ function MainPage() {
                                 address: "",
                               }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.stores}
                             />
                           </RequireAuth>
                         }
@@ -279,6 +317,7 @@ function MainPage() {
                                 email: "",
                               }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.assignUser}
                             />
                           </RequireAuth>
                         }
@@ -292,6 +331,7 @@ function MainPage() {
                                 address: "",
                               }}
                               formType={formTypes.view}
+                              formTemplate={formTemplates.stores}
                             />
                           </RequireAuth>
                         }
@@ -309,6 +349,7 @@ function MainPage() {
                               }}
                               ignoreKeys={{ owner: "" }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.users}
                             />
                           </RequireAuth>
                         }
@@ -323,6 +364,7 @@ function MainPage() {
                                 email: "",
                               }}
                               formType={formTypes.view}
+                              formTemplate={formTemplates.users}
                             />
                           </RequireAuth>
                         }
@@ -344,6 +386,7 @@ function MainPage() {
                                 euro: 0,
                               }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.addPoints}
                             />
                           </RequireAuth>
                         }
@@ -357,6 +400,7 @@ function MainPage() {
                                 redeem: 0,
                               }}
                               formType={formTypes.add}
+                              formTemplate={formTemplates.redeemPoints}
                             />
                           </RequireAuth>
                         }

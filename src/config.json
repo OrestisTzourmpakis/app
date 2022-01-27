@@ -18,5 +18,20 @@
         "add":0,
         "edit":1,
         "view":2
+    },
+    "formTemplates":{
+        "company":0,
+        "users":1,
+        "sales":2,
+        "stores":3,
+        "addPoints":4,
+        "redeemPoints":5,
+        "assignUser":6
+    },
+    "formInputTypes":{
+        "checkbox":0,
+        "number":1,
+        "text":2,
+        "date":3
     }
 }
