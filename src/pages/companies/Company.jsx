@@ -5,6 +5,8 @@ import { tabs } from "../../config.json";
 import { Link, useNavigate } from "react-router-dom";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import { getAllCompanies } from "../../services/companyService";
+import { Button } from "@mui/material";
+import { Edit, Visibility } from "@mui/icons-material";
 
 function Company() {
   const [companies, setCompanies] = useState([]);
@@ -28,6 +30,15 @@ function Company() {
       },
     });
   };
+
+  const handleViewClick = (row) => {
+    navigate(`/companies/${row.id}/stores`, {
+      state: {
+        id: row.id,
+      },
+    });
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -35,21 +46,8 @@ function Company() {
       headerName: "Name",
       width: 200,
       renderCell: (params) => {
-        return (
-          <Link
-            className="storeNameLink"
-            to={`/companies/${params.row.id}/stores`}
-            state={{ id: params.row.id }}
-          >
-            {params.row.name}
-          </Link>
-        );
+        return <>{params.row.name}</>;
       },
-    },
-    {
-      field: "logo",
-      headerName: "Logo",
-      width: 120,
     },
     {
       field: "website",
@@ -57,11 +55,38 @@ function Company() {
       width: 120,
     },
     {
+      field: "view",
+      headerName: "Stores",
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              color="primary"
+              onClick={() => handleViewClick(params.row)}
+              variant="contained"
+              startIcon={<Visibility />}
+            >
+              View
+            </Button>
+          </>
+        );
+      },
+    },
+    {
       field: "edit",
       headerName: "Edit",
       renderCell: (params) => {
         return (
-          <h2 onClick={() => handleEditClick(params.row)}>Edit this boy</h2>
+          <>
+            <Button
+              color="secondary"
+              onClick={() => handleEditClick(params.row)}
+              variant="contained"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </>
         );
       },
     },

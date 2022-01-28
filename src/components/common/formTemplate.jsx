@@ -45,11 +45,15 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
     formTemplate === formTemplates.redeemPoints ? true : false;
   console.log(dataTest);
   const resultt = { ...data, ...dataTest };
-  const [initialValue, setInitialValue] = useState({ ...resultt });
-  const [details, setDetails] = useState({ ...data, ...dataTest });
+  //const [initialValue, setInitialValue] = useState({ ...resultt });
+  //const [details, setDetails] = useState({ ...data, ...dataTest });
+  const [dataForm, setDataForm] = useState({
+    initialData: { ...resultt },
+    details: { ...resultt },
+  });
   const [isRedeemPage, setIsRedeemPage] = useState(false);
   console.log("Details of formTemplate:");
-  console.log(details);
+  console.log(dataForm.details);
   const [errors, setErrors] = useState([]);
   const [disableButton, setDisabledButton] = useState(true);
   const [showSnackbar, setShowSnackbar] = useState(false);
@@ -65,16 +69,13 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
   useEffect(() => {
     // initialize the endpoints!!
     checkEndPoint();
-  }, [details, edit]);
+  }, [dataForm, edit]);
 
   // const initialValue = data;
   const updateValue = (key, newValue) => {
-    console.log("Update key and value!!!");
-    console.log(`To key:${key} and the new value:${newValue}`);
-    console.log("Ne value bitch");
-    const prevState = { ...details };
+    const prevState = { ...dataForm.details };
     _.set(prevState, key, newValue);
-    setDetails({ ...prevState });
+    setDataForm({ ...dataForm, details: { ...prevState } });
   };
   const checkEndPoint = () => {
     console.log("Current form Template:");
@@ -84,9 +85,9 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
       case formTemplates.company:
         methods.addMethod = addCompany;
         methods.updateMethod = updateCompany;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <CompanyForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
           />
@@ -95,34 +96,36 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
       case formTemplates.users:
         methods.addMethod = register;
         methods.updateMethod = updateAccount;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <UserForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
             formType={formType}
-            setDetails={setDetails}
+            dataForm={dataForm}
+            setDataForm={setDataForm}
           />
         );
         break;
       case formTemplates.sales:
         methods.addMethod = addSale;
         methods.updateMethod = updateSale;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <SalesForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
-            setDetails={setDetails}
+            dataForm={dataForm}
+            setDataForm={setDataForm}
           />
         );
         break;
       case formTemplates.stores:
         methods.addMethod = addStore;
         methods.updateMethod = updateStore;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <StoresForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
           />
@@ -130,9 +133,9 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
         break;
       case formTemplates.assignUser:
         methods.addMethod = assignUserToCompany;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <AssignUserToCompany
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
           />
@@ -141,9 +144,9 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
       case formTemplates.addPoints:
         methods.addMethod = addPoints;
         methods.updateMethod = updatePoints;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <PointsForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
           />
@@ -151,9 +154,9 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
         break;
       case formTemplates.redeemPoints:
         methods.addMethod = redeemPoints;
-        methods.renderForm = (
+        methods.renderForm = () => (
           <PointsForm
-            details={details}
+            details={dataForm.details}
             updateValue={updateValue}
             handleDisableInput={handleDisableInput}
             redeem={true}
@@ -164,11 +167,8 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
     setFormMethods({ ...methods });
   };
   const handleDisableInput = () => {
-    if (formType == formTypes.view && !edit) {
-      return true;
-    } else {
-      return false;
-    }
+    if (formType == formTypes.view && !edit) return true;
+    else return false;
   };
 
   const handleClick = async () => {
@@ -183,16 +183,11 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
       setErrors([]);
       if (formType === formTypes.add) {
         // handle the add click
-        console.log("add called!");
-        const addResult = await formMethods.addMethod({ ...details });
+        await formMethods.addMethod({ ...dataForm.details });
       } else {
-        console.log("The updated details!!");
-        console.log(details);
-        const result = await formMethods.updateMethod({ ...details });
-        setInitialValue({ ...details });
+        await formMethods.updateMethod({ ...dataForm.details });
+        setDataForm({ ...dataForm, initialData: { ...dataForm.details } });
         setEdit(false);
-        // pou shmainei ama einai sto view kai to edit einai true tote kane handle to update
-        // the update click!!!
       }
       setShowSnackbar(true);
     } catch (ex) {
@@ -212,9 +207,9 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
 
   const handleCancelClick = () => {
     setEdit(false);
-    setDetails({ ...initialValue });
+    setDataForm({ ...dataForm, details: { ...dataForm.initialData } });
     console.log("Initial Value:");
-    console.log(initialValue);
+    console.log(dataForm.initialData);
   };
   return (
     <>
@@ -223,69 +218,7 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
           <ArrowBack className="backButtonIcon" />
         </div>
         <div className="storeDetailsWrapper">
-          {formMethods.renderForm}
-          {/* <div className="storeDetailsForm">
-            {setPointsPage && (
-              <>
-                <h4>
-                  The current ratio for 1 euro is :
-                  {location.state.euroToPointsRatio} points
-                </h4>
-                <FormInput
-                  label="euro"
-                  value={details["euro"]}
-                  valueChange={updateValue}
-                  disableInput={handleDisableInput()}
-                />
-                <p>
-                  Current points for the input euros are:
-                  {details["euroToPointsRatio"] * details["euro"]}
-                </p>
-              </>
-            )}
-            {redeemPointsPage && (
-              <>
-                <h2>Total user points: {location.state.points}</h2>
-                <h4>
-                  The current ratio for 1 point is :
-                  {location.state.pointsToEuroRatio} euro
-                </h4>
-                <FormInput
-                  label="redeem"
-                  value={details["redeem"]}
-                  maxPrice={location.state.points}
-                  minPrice={0}
-                  valueChange={updateValue}
-                  disableInput={handleDisableInput()}
-                />
-                <p>
-                  Current euro for the input points are:
-                  {details["pointsToEuroRatio"] * details["redeem"]}
-                </p>
-              </>
-            )}
-            {!setPointsPage && !redeemPointsPage && (
-              <>
-                {Object.keys(data).map((key) => {
-                  console.log(`To key:${key}`);
-                  console.log("asidufhaskfuhaksdfiuhkasdfiu");
-                  if (_.has(ignoreKeys, key)) return;
-                  return (
-                    <>
-                      <FormInput
-                        objKey={key}
-                        label={key}
-                        key={key}
-                        value={details[key]}
-                        valueChange={updateValue}
-                        disableInput={handleDisableInput()}
-                      />
-                    </>
-                  );
-                })}
-              </>
-            )}
-          </div> */}
+          {formMethods.renderForm()}
           <div
             className={`storeDetailsButtons ${loading ? "loadingButton" : ""}`}
           >
@@ -297,7 +230,6 @@ function FormTemplate({ data, formType, ignoreKeys, formTemplate }) {
                 <>{edit && <h4 className="storeFormWhite">Cancel</h4>}</>
               </div>
             )}
-
             <div
               className="storeDetailsEditButton storeDetailsGreenButton"
               onClick={handleClick}

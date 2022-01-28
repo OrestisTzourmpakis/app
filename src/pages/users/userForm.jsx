@@ -10,6 +10,8 @@ function UserForm({
   handleDisableInput,
   formType,
   setDetails,
+  setDataForm,
+  dataForm,
 }) {
   const [owner, setOwner] = useState(details["owner"]);
   useEffect(() => {
@@ -18,7 +20,12 @@ function UserForm({
       let result = await checkUserRole(details["email"]);
       console.log("To result:");
       console.log(result);
-      setDetails({ ...details, owner: result });
+      //setInitialValue({ ...initialValue, owner: result });
+      //setDetails({...details,owner:result});
+      setDataForm({
+        initialData: { ...dataForm.initialData, owner: result },
+        details: { ...dataForm.details, owner: result },
+      });
     };
     init();
   }, []);

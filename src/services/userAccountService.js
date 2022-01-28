@@ -66,8 +66,11 @@ export async function register(user) {
     return result;
 }
 
-export async function updateAccount() {
-    
+export async function updateAccount(model) {
+    console.log("Update user called!!!!");
+    let updateUser = apiEndpoint +"updateUser";
+    const result = await http.post(updateUser,model);
+    return result;
 }
 
 // edw pera save the jwt and so on...

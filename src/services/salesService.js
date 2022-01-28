@@ -18,7 +18,7 @@ export async function addSale(newSale)
     const formData = new FormData();
     formData.append("imageFile",newSale.imageFile);
     formData.append("image",newSale.image)
-    formData.append("title", "O titles boy")
+    formData.append("title", newSale.title)
     formData.append("dateStart", newSale.dateStart);
     formData.append("dateEnd", newSale.dateEnd);
     formData.append("description", newSale.description);

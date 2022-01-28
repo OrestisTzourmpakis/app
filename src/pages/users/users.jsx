@@ -3,16 +3,19 @@ import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getAllUsers } from "../../services/userService";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import { FormContext } from "../../contexts/formContext";
+import { Button } from "@mui/material";
+import { Edit, Visibility } from "@mui/icons-material";
 
 function Users() {
   const [users, setUsers] = useState([]);
   const data = useContext(FormContext);
   const { changeTab, authed } = useContext(TabContext);
   const location = useLocation();
+  const navigate = useNavigate();
   console.log("Ta data");
   console.log(data);
   useEffect(async () => {
@@ -26,21 +29,30 @@ function Users() {
       console.log("Something happend when calling the users api");
     }
   }, []);
+  const handleEditClick = (row) => {
+    console.log("Clicked here boy");
+    navigate(`${location.pathname}/${row.id}`, {
+      state: {
+        ...row,
+      },
+    });
+  };
+
+  const handleViewClick = (row) => {
+    navigate(`${location.pathname}/userPoints/${row.id}`, {
+      state: {
+        email: row.email,
+      },
+    });
+  };
+
   const columns = [
     {
       field: "userName",
-      headerName: "Name",
+      headerName: "Username",
       width: 200,
       renderCell: (params) => {
-        return (
-          <Link
-            className="storeNameLink"
-            to={`${location.pathname}/${params.row.id}`}
-            state={{ ...params.row }}
-          >
-            {params.row.userName}
-          </Link>
-        );
+        return <>{params.row.userName}</>;
       },
     },
     {
@@ -52,34 +64,44 @@ function Users() {
       },
     },
     {
-      field: "role",
-      headerName: "Role",
-      width: 120,
-      renderCell: (params) => {
-        return "Company Owner";
-      },
-    },
-    {
-      field: "companies",
-      headerName: "Show points",
-      width: 120,
+      field: "view",
+      headerName: "User Points",
       renderCell: (params) => {
         return (
-          <Link
-            className="storeNameLink"
-            to={`${location.pathname}/userPoints/${params.row.id}`}
-            state={{ email: params.row.email }}
-          >
-            Show Points
-          </Link>
+          <>
+            <Button
+              color="primary"
+              onClick={() => handleViewClick(params.row)}
+              variant="contained"
+              startIcon={<Visibility />}
+            >
+              View
+            </Button>
+          </>
         );
       },
     },
-    ,
+    {
+      field: "edit",
+      headerName: "Edit",
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              color="secondary"
+              onClick={() => handleEditClick(params.row)}
+              variant="contained"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </>
+        );
+      },
+    },
   ];
   return (
     <>
-      <button onClick={data.methods.addMethod}>adfsadfasdfasd</button>
       <DataTablePageTemplate
         title="Users"
         columns={columns}

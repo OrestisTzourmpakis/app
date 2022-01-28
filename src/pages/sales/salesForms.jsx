@@ -6,10 +6,14 @@ function SalesForm({
   updateValue,
   handleDisableInput,
   setSales,
-  setDetails,
+  dataForm,
+  setDataForm,
 }) {
   const updateImage = (imageName, imageFile) => {
-    setDetails({ ...details, image: imageName, imageFile });
+    setDataForm({
+      ...dataForm,
+      details: { ...dataForm.details, image: imageName, imageFile },
+    });
   };
 
   return (
@@ -37,16 +41,9 @@ function SalesForm({
           valueChange={updateValue}
           disableInput={handleDisableInput()}
           updateImage={updateImage}
-          imageObj={{
-            imageName: {
-              key: "image",
-              value: details["image"],
-            },
-            imageFile: {
-              key: "imageFile",
-              value: details["imageFile"],
-            },
-          }}
+          handleImageUpdate={updateImage}
+          imageName={details["image"]}
+          imageFile={details["imageFile"]}
         />
         <FormInput
           label="Date Start"

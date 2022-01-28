@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import {
   getSaleById,
@@ -12,11 +12,15 @@ import {
 import { useState } from "react";
 import { useEffect } from "react";
 import { UserContext } from "../../contexts/userContext";
+import { Button } from "@mui/material";
+import { Edit, Visibility } from "@mui/icons-material";
+
 function Sales() {
   const [sales, setSales] = useState([]);
   const { authed } = useContext(UserContext);
   const userEmail = authed.email;
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(async () => {
     // get the company id from the
     // get the context!!
@@ -27,6 +31,15 @@ function Sales() {
 
   const handleAdd = async (neew) => {
     await addSale(neew);
+  };
+
+  const handleEditClick = (row) => {
+    console.log("Clicked here boy");
+    navigate(`/sales/${row.id}`, {
+      state: {
+        ...row,
+      },
+    });
   };
 
   const columns = [
@@ -49,7 +62,7 @@ function Sales() {
     {
       field: "dateStart",
       headerName: "Date Start",
-      width: 90,
+      width: 110,
       renderCell: (params) => {
         return <div>{params.row.dateStart}</div>;
       },
@@ -57,40 +70,26 @@ function Sales() {
     {
       field: "dateEnd",
       headerName: "Date End",
-      width: 90,
+      width: 110,
       renderCell: (params) => {
         return <div>{params.row.dateEnd}</div>;
       },
     },
     {
-      field: "viewSales",
-      headerName: "View",
-      width: 120,
+      field: "edit",
+      headerName: "View / Edit",
       renderCell: (params) => {
         return (
-          <Link
-            to={`/sales/${params.id}`}
-            state={{
-              ...params.row,
-            }}
-          >
-            View
-          </Link>
-        );
-      },
-    },
-    {
-      field: "updateSales",
-      headerName: "Update",
-      width: 120,
-      renderCell: (params) => {
-        return (
-          <Link
-            to={`${location.pathname}/updateSale`}
-            state={{ ...params.row }}
-          >
-            Update
-          </Link>
+          <>
+            <Button
+              color="secondary"
+              onClick={() => handleEditClick(params.row)}
+              variant="contained"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </>
         );
       },
     },
@@ -100,7 +99,7 @@ function Sales() {
       title="Sales"
       row={sales}
       columns={columns}
-      locationState={{ Email: userEmail }}
+      locationState={{ email: userEmail }}
     />
   );
 }

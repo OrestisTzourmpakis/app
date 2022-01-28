@@ -4,16 +4,19 @@ import "./Stores.css";
 import { Route, Routes } from "react-router";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import { getStoreById, getStoreByEmail } from "../../services/storeService";
 import { UserContext } from "../../contexts/userContext";
+import { Button } from "@mui/material";
+import { Edit, Visibility } from "@mui/icons-material";
 
 export default function Stores() {
   const { changeTab } = useContext(TabContext);
   const [locationState, setLocationState] = useState();
   const { isAdmin, authed } = useContext(UserContext);
   const [stores, setStores] = useState([]);
+  const navigate = useNavigate();
   const location = useLocation();
   // const [companyId, setCompanyId] = useState(null);
   console.log(`Stores location:${location.pathname}`);
@@ -37,6 +40,15 @@ export default function Stores() {
       console.log(ex);
     }
   }, []);
+  const handleEditClick = (row) => {
+    console.log("Clicked here boy");
+    navigate(`${location.pathname}/${row.id}`, {
+      state: {
+        ...row,
+      },
+    });
+  };
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
@@ -44,14 +56,24 @@ export default function Stores() {
       headerName: "Address",
       width: 200,
       renderCell: (params) => {
+        return <>{params.row.address}</>;
+      },
+    },
+    {
+      field: "edit",
+      headerName: "Edit / View",
+      renderCell: (params) => {
         return (
-          <Link
-            className="storeNameLink"
-            to={`${location.pathname}/${params.row.id}`}
-            state={{ ...params.row }}
-          >
-            {params.row.address}
-          </Link>
+          <>
+            <Button
+              color="secondary"
+              onClick={() => handleEditClick(params.row)}
+              variant="contained"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </>
         );
       },
     },

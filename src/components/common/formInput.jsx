@@ -13,15 +13,19 @@ function FormInput({
   type,
   imageObj,
   updateImage,
+  imageName,
+  imageFile,
 }) {
   console.log("To imageObj1!!");
   console.log(imageObj);
-  const [myImage, setMyImage] = useState({
-    imageSrc: "",
-    imageFile: null,
-  });
+  // const [myImage, setMyImage] = useState({
+  //   imageSrc: "",
+  //   imageFile: null,
+  // });
   const [test, setTest] = useState(imageObj);
   const inputType = type ?? "text";
+  console.log("To imageFile:");
+  console.log(imageFile);
   const handleOnChange = (e) => {
     if (inputType === "checkbox") {
       valueChange(objKey, e.target.checked);
@@ -43,29 +47,15 @@ function FormInput({
   const handleImageChange = (e) => {
     // check if we selected an image!!!
     if (e.target.files && e.target.files[0]) {
-      let imageFile = e.target.files[0];
+      let imageFileTemp = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (x) => {
-        // setMyImage({
-        //   ...myImage,
-        //   imageFile,
-        //   imageSrc: x.target.result,
-        // });
         console.log("Mesa sto onchange!!!!");
-        console.log(test);
-        updateImage(x.target.result, imageFile);
-        //valueChange(imageObj.imageFile.key, imageFile);
-        //valueChange(imageObj.imageName.key, x.target.result);
+        updateImage(x.target.result, imageFileTemp);
       };
-      reader.readAsDataURL(imageFile);
+      reader.readAsDataURL(imageFileTemp);
     } else {
-      setMyImage({
-        ...myImage,
-        imageFile: null,
-        imageSrc: "/img/default.jpg",
-      });
-      valueChange(imageObj.imageFile.key, null);
-      valueChange(imageObj.imageName.key, "/img/default.jpg");
+      updateImage("", null);
     }
   };
 
@@ -86,9 +76,9 @@ function FormInput({
       case "image":
         return (
           <div className="imageFormWrapper">
-            {imageObj?.imageFile && (
+            {imageName !== null && (
               <div className="imageForm">
-                <img src={imageObj.imageName.value} />
+                <img src={imageName} />
               </div>
             )}
 
@@ -96,6 +86,7 @@ function FormInput({
               id="raised-button-file"
               type="file"
               accept="image/*"
+              disabled={disableInput ? true : false}
               onChange={handleImageChange}
             />
           </div>
