@@ -5,10 +5,10 @@ import jwtDecode from "jwt-decode";
 const apiEndpoint = apiUrl + "/useraccount/";
 const tokenKey = "token";
 const userObject = "user";
-export async function login(email,password)
+export async function login(model)
 {
     let login = apiEndpoint +"login";
-    const {data} = await http.post(login,{email,password});
+    const {data} = await http.post(login,model);
   
     // save the user info too..
     return data;

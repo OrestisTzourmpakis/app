@@ -9,15 +9,36 @@ import DataTablePageTemplate from "../../components/common/dataTablePageTemplate
 import { getStoreById, getStoreByEmail } from "../../services/storeService";
 import { UserContext } from "../../contexts/userContext";
 import { Button } from "@mui/material";
-import { Edit, Visibility } from "@mui/icons-material";
-
+import { Edit, Visibility, DeleteOutline, Delete } from "@mui/icons-material";
+import ConfirmDialog from "../../components/common/confirmDialog";
 export default function Stores() {
   const { changeTab } = useContext(TabContext);
   const [locationState, setLocationState] = useState();
   const { isAdmin, authed } = useContext(UserContext);
   const [stores, setStores] = useState([]);
+  const [selectedId, setSelectedId] = useState(null);
+  const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const handleDelete = () => {
+    // try catch? prwta 8a kanw to set state wste na dei3w oti ola comple
+    // kai meta 8a kalesw to api gia na kanw delete!!!
+    try {
+      if (selectedId === null) return;
+      let storesTemp = stores.filter((c) => c.id !== selectedId);
+      console.log("Stores temp:");
+      console.log(storesTemp);
+      setStores({ ...storesTemp });
+    } catch (e) {}
+  };
+
+  const dialogChildren = (
+    <>
+      <h1>Hello there big boy</h1>
+    </>
+  );
+
   // const [companyId, setCompanyId] = useState(null);
   console.log(`Stores location:${location.pathname}`);
   useEffect(async () => {
@@ -77,13 +98,42 @@ export default function Stores() {
         );
       },
     },
+    {
+      field: "delete",
+      headerName: "Delete",
+      renderCell: (params) => {
+        return (
+          <>
+            <DeleteOutline
+              onClick={() => {
+                setSelectedId(params.row.id);
+                setShowDialog(true);
+              }}
+            />
+          </>
+        );
+      },
+    },
   ];
   return (
-    <DataTablePageTemplate
-      title="Stores"
-      row={stores}
-      columns={columns}
-      locationState={{ ...locationState }}
-    />
+    <>
+      <DataTablePageTemplate
+        title="Stores"
+        row={stores}
+        columns={columns}
+        locationState={{ ...locationState }}
+        dialogTitle="Delete this item?"
+        confirmDialog={handleDelete}
+        dialogChildren={dialogChildren}
+      />
+      <ConfirmDialog
+        title="Do you want to delete this item?"
+        open={showDialog}
+        setOpen={setShowDialog}
+        onConfirm={handleDelete}
+      >
+        {dialogChildren}
+      </ConfirmDialog>
+    </>
   );
 }

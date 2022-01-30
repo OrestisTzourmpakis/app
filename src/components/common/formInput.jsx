@@ -76,7 +76,7 @@ function FormInput({
       case "image":
         return (
           <div className="imageFormWrapper">
-            {imageName !== null && (
+            {imageName !== null && imageName !== "" && (
               <div className="imageForm">
                 <img src={imageName} />
               </div>

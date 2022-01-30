@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import { getUserPointsAllCompanies } from "../../services/pointsService";
+import { Button } from "@mui/material";
+import { Edit, Visibility } from "@mui/icons-material";
 
 function UserPoints() {
   const [userPoints, setUserPoints] = useState([]);
   const location = useLocation();
-
+  const navigate = useNavigate();
   useEffect(async () => {
     // call the api to get the user's points!!
     try {
@@ -18,6 +20,35 @@ function UserPoints() {
       console.log("Error getting the user points by email!");
     }
   }, []);
+
+  const handleViewCompany = (row) => {
+    navigate(`${location.pathname}/${row.company.name}`, {
+      state: {
+        ...row,
+      },
+    });
+  };
+
+  const handleAddRemovePoints = (row) => {
+    navigate(`${location.pathname}/setPoints`, {
+      state: {
+        companyId: row.company.id,
+        userId: row.applicationUserId,
+        euroToPointsRatio: row.company.euroToPointsRatio,
+      },
+    });
+  };
+
+  const handleRedeemPoints = (row) => {
+    navigate(`${location.pathname}/redeemPoints`, {
+      state: {
+        companyId: row.company.id,
+        userId: row.applicationUserId,
+        pointsToEuroRatio: row.company.pointsToEuroRatio,
+        points: row.total,
+      },
+    });
+  };
 
   const columns = [
     {
@@ -33,15 +64,7 @@ function UserPoints() {
       headerName: "Company Name",
       width: 200,
       renderCell: (params) => {
-        return (
-          <Link
-            className="storeNameLink"
-            to={`/users/${params.row.company.name}`}
-            state={{ ...params.row }}
-          >
-            {params.row.company.name}
-          </Link>
-        );
+        return <>{params.row.company.name}</>;
       },
     },
     {
@@ -50,18 +73,21 @@ function UserPoints() {
       width: 120,
     },
     {
-      field: "setPoints",
-      headerName: "Edit Points",
+      field: "viewCompany",
+      headerName: "Company",
       width: 120,
       renderCell: (params) => {
         return (
-          <Link
-            className="storeNameLink"
-            to={`${location.pathname}/${params.row.company.name}`}
-            state={{ ...params.row }}
-          >
-            Set Points
-          </Link>
+          <>
+            <Button
+              color="primary"
+              onClick={() => handleViewCompany(params.row)}
+              variant="contained"
+              startIcon={<Visibility />}
+            >
+              View
+            </Button>
+          </>
         );
       },
     },
@@ -71,16 +97,16 @@ function UserPoints() {
       width: 120,
       renderCell: (params) => {
         return (
-          <Link
-            to={`${location.pathname}/setPoints`}
-            state={{
-              companyId: params.row.company.id,
-              userId: params.row.applicationUserId,
-              euroToPointsRatio: params.row.company.euroToPointsRatio,
-            }}
-          >
-            Add/Remove
-          </Link>
+          <>
+            <Button
+              color="primary"
+              onClick={() => handleAddRemovePoints(params.row)}
+              variant="contained"
+              startIcon={<Visibility />}
+            >
+              Add/Remove
+            </Button>
+          </>
         );
       },
     },
@@ -90,17 +116,16 @@ function UserPoints() {
       width: 120,
       renderCell: (params) => {
         return (
-          <Link
-            to={`${location.pathname}/redeemPoints`}
-            state={{
-              companyId: params.row.company.id,
-              userId: params.row.applicationUserId,
-              pointsToEuroRatio: params.row.company.pointsToEuroRatio,
-              points: params.row.total,
-            }}
-          >
-            Redeem
-          </Link>
+          <>
+            <Button
+              color="primary"
+              onClick={() => handleRedeemPoints(params.row)}
+              variant="contained"
+              startIcon={<Visibility />}
+            >
+              View
+            </Button>
+          </>
         );
       },
     },

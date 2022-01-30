@@ -26,7 +26,7 @@ export default function LoginPage() {
   const handleLoginClick = async () => {
     try {
       setErrors([]);
-      await userLogin(email, password);
+      await userLogin({ email, password });
       // setErrors(["hello there", "this is an error"]);
       navigate("/");
       // const check = checkIfExpired();

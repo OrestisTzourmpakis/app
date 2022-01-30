@@ -13,7 +13,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { UserContext } from "../../contexts/userContext";
 import { Button } from "@mui/material";
-import { Edit, Visibility } from "@mui/icons-material";
+import { Edit, Visibility, Delete } from "@mui/icons-material";
 
 function Sales() {
   const [sales, setSales] = useState([]);
@@ -78,6 +78,24 @@ function Sales() {
     {
       field: "edit",
       headerName: "View / Edit",
+      renderCell: (params) => {
+        return (
+          <>
+            <Button
+              color="secondary"
+              onClick={() => handleEditClick(params.row)}
+              variant="contained"
+              startIcon={<Edit />}
+            >
+              Edit
+            </Button>
+          </>
+        );
+      },
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
       renderCell: (params) => {
         return (
           <>

@@ -7,12 +7,14 @@ import { TabContext } from "./contexts/tabContext";
 import MainPage from "./pages/mainPage";
 import { createTheme } from "@mui/material/styles";
 import { orange } from "@mui/material/colors";
+import ExternalLoginPage from "./pages/login/externalLoginPage";
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/external-login" element={<ExternalLoginPage />} />
         <Route path="/*" element={<MainPage />} />
       </Routes>
     </Router>

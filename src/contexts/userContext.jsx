@@ -30,8 +30,8 @@ export function useAuth() {
     }
   }, [authed]);
 
-  const userLogin = async (email, password) => {
-    const userDetails = await login(email, password);
+  const userLogin = async (model) => {
+    const userDetails = await login(model);
     const checkIfAdmin = userDetails.roles.filter(
       (c) => c === roles.Administrator || c === roles.CompanyOwner
     );
