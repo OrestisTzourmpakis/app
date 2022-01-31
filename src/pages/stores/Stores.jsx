@@ -11,26 +11,35 @@ import { UserContext } from "../../contexts/userContext";
 import { Button } from "@mui/material";
 import { Edit, Visibility, DeleteOutline, Delete } from "@mui/icons-material";
 import ConfirmDialog from "../../components/common/confirmDialog";
+import { ConfirmationDialogContext } from "../../contexts/confirmationDialogContext";
+
 export default function Stores() {
   const { changeTab } = useContext(TabContext);
   const [locationState, setLocationState] = useState();
   const { isAdmin, authed } = useContext(UserContext);
   const [stores, setStores] = useState([]);
+  const { openDialog, resetDialog } = useContext(ConfirmationDialogContext);
   const [selectedId, setSelectedId] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleDelete = () => {
+  const handleDelete = (id) => {
     // try catch? prwta 8a kanw to set state wste na dei3w oti ola comple
     // kai meta 8a kalesw to api gia na kanw delete!!!
     try {
-      if (selectedId === null) return;
-      let storesTemp = stores.filter((c) => c.id !== selectedId);
+      console.log("In the handle delete");
+      console.log("The selected id :");
+      console.log(id);
+      if (id === null) return;
+      let storesTemp = stores.filter((c) => c.id !== id);
       console.log("Stores temp:");
       console.log(storesTemp);
-      setStores({ ...storesTemp });
-    } catch (e) {}
+      setStores([...storesTemp]);
+    } catch (e) {
+      // delete the store here!!!
+      console.log("Error in the handleDelete");
+    }
   };
 
   const dialogChildren = (
@@ -106,14 +115,23 @@ export default function Stores() {
           <>
             <DeleteOutline
               onClick={() => {
-                setSelectedId(params.row.id);
-                setShowDialog(true);
+                //setSelectedId(params.row.id);
+                //setShowDialog(true);
+                //resetDialog();
+                openDialog({
+                  title: "Hello there",
+                  body: "This is the body",
+                  yesButton: "Yes",
+                  noButton: "No",
+                  callback: () => handleDelete(params.row.id),
+                });
               }}
             />
           </>
         );
       },
     },
+    // open dialog!! -> 8a
   ];
   return (
     <>
