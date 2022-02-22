@@ -6,11 +6,7 @@ import {ConfirmationDialogContextProvider} from "./contexts/confirmationDialogCo
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserContextProvider>
-      <ConfirmationDialogContextProvider>
     <App />
-      </ConfirmationDialogContextProvider>
-    </UserContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -8,10 +8,10 @@ const userObject = "user";
 export async function login(model)
 {
     let login = apiEndpoint +"login";
-    const {data} = await http.post(login,model);
-  
+    const result = await http.post(login,model,{widthCredentials:true});
+    console.log(result);
     // save the user info too..
-    return data;
+    return result.data;
 }
 
 export function setJwtUser(data)
@@ -61,7 +61,7 @@ export function checkIfExpired() {
 }
   
 export async function register(user) {
-    let registerUser = apiEndpoint +"register";
+    let registerUser = apiEndpoint +"registerfromadmin";
     const result = await http.post(registerUser,user);
     return result;
 }

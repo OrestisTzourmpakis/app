@@ -30,9 +30,16 @@ export async function addSale(newSale)
     return data;
 }
 
-export async function getSaleById(email)
+export async function getSaleById(email,id=null)
 {
-    let getSales = apiEndpoint+`getSales?email=${email}`;
+    let getSales = apiEndpoint+`getSales?`;
+    if (id !== null)
+    {
+        getSales += `id=${id}`;
+    }
+    else {
+        getSales+=`email=${email}`
+    }
     const { data } = await http.get(getSales);
     console.log("Ta sales!!!::::");
     console.log(data);
@@ -41,8 +48,19 @@ export async function getSaleById(email)
 
 export async function updateSale(sale)
 {
+    const formData = new FormData();
+    formData.append("imageFile",sale.imageFile);
+    formData.append("image",sale.image)
+    formData.append("title", sale.title)
+    formData.append("dateStart", sale.dateStart);
+    formData.append("dateEnd", sale.dateEnd);
+    formData.append("description", sale.description);
+    formData.append("email", sale.email);
+    formData.append("id", sale.id);
+    console.log("To formData model mou");
+    console.log(formData);
     let updateCompany = apiEndpoint + `updateSale`;
-    const { data } = await http.put(updateCompany, sale);
+    const { data } = await http.put(updateCompany, formData);
     return data;
 }
 

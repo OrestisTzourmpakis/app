@@ -20,15 +20,25 @@ export function useAuth() {
     authed: false,
     companyId: null,
   });
+  // if we are admin
+  const [companyOwnerEmail, setCompanyOwnerEmail] = useState(null);
   const [menu, setMenu] = useState(dashboardMenu);
 
   useEffect(() => {
     if (isAdmin()) {
-      setMenu(dashboardMenu.filter((c) => c.tab !== tabs.Stores));
+      setMenu(
+        dashboardMenu.filter(
+          (c) => c.tab !== tabs.Stores && c.tab !== tabs.Sales
+        )
+      );
     } else {
       setMenu(dashboardMenu.filter((c) => c.tab !== tabs.Companies));
     }
   }, [authed]);
+
+  // useEffect(() => {
+  //   setUserContextObject();
+  // }, []);
 
   const userLogin = async (model) => {
     const userDetails = await login(model);
@@ -62,6 +72,10 @@ export function useAuth() {
     }
   };
 
+  const changeCompanyOnwer = (email) => {
+    setCompanyOwnerEmail(email);
+  };
+
   return {
     authed,
     userLogin,
@@ -70,6 +84,8 @@ export function useAuth() {
     setUserContextObject,
     isAdmin,
     menu,
+    companyOwnerEmail,
+    changeCompanyOnwer,
   };
 }
 

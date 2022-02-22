@@ -1,7 +1,19 @@
-import React, { useState } from "react";
+import React, { Children, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
-import { Add, ArrowBack } from "@mui/icons-material";
+
+import { Add, ArrowBack } from "@material-ui/icons";
+import { DataGrid } from "@material-ui/data-grid";
+import {
+  Box,
+  Container,
+  Grid,
+  TableBody,
+  TableCell,
+  TableRow,
+  Toolbar,
+} from "@material-ui/core";
+import useTable from "./useTable";
+import { stores } from "../../services/dummyData";
 
 function DataTablePageTemplate({
   title,
@@ -13,30 +25,55 @@ function DataTablePageTemplate({
 }) {
   const location = useLocation();
   const [showDialog, setShowDialog] = useState(false);
-  // to back button tha exei auto edw pera to path!!!
-  // twra gia na ftia3w to add apla pros8ese
-  console.log(location.pathname);
   let navigate = useNavigate();
+  const headCells = [
+    { id: "name", label: "Store Name" },
+    { id: "address", label: "Address" },
+    { id: "link", label: "WebSite" },
+  ];
+  const {
+    TableContainer,
+    TableHeader,
+    TablePaginationCustom,
+    recordsAfterPaging,
+  } = useTable(stores, headCells, ["name", "link", "address"]);
+
   const assignUser = () => {
-    console.log("Assign User");
-    // pass the state of the current company
-    // if the state is null take it from the context that you will create!
     navigate(`${location.pathname}/assignUser`, { state: locationState });
   };
+
   const handleClick = (e) => {
     e.preventDefault();
     let addPath = location.pathname + "/add";
     navigate(addPath, { state: locationState });
   };
+
   return (
     <>
-      <div className="storesWrapper">
+      <Container>
+        <Grid direction="column" style={{ margin: "20px" }}>
+          <Grid item container justifyContent="center">
+            <Box display="flex"></Box>
+            <Box display="flex" flexDirection="column" justifyContent="center">
+              <TableContainer key="tableContainer">
+                <TableHeader />
+                <TableBody>
+                  {recordsAfterPaging().map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.address}</TableCell>
+                      <TableCell>{item.link}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </TableContainer>
+              <TablePaginationCustom />
+            </Box>
+          </Grid>
+        </Grid>
+      </Container>
+      {/* <div className="storesWrapper">
         <div className="storesTitle">
-          {!hideBackButton && (
-            <div className="backButtonWrapper" onClick={() => navigate(-1)}>
-              <ArrowBack className="backButtonIcon" />
-            </div>
-          )}
           {hideBackButton && <div></div>}
           <h3>{title}</h3>
           {location.pathname.includes("store") && (
@@ -69,7 +106,7 @@ function DataTablePageTemplate({
             />
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

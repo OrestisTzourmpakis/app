@@ -12,13 +12,25 @@ export async function getAllUsers()
 }
 
 
-export async function getUsersByCompany(id)
+export async function getUsersByCompany(email)
 {
-    let users = apiEndpoint+`getUsersByCompany?Id=${id}`;
+    let users = apiEndpoint+`getUsersByCompany?email=${email}`;
     const { data } = await http.get(users);
     return data;
 }
 
+export async function deleteUser(email)
+{
+    let deleteUser = apiEndpoint + `deleteUser?email=${email}`;
+    const result = await http.delete(deleteUser);
+}
+
+export async function getUser(email)
+{
+    let user = apiEndpoint + `getUser?email=${email}`;
+    const { data } = await http.get(user);
+    return data;
+}
 // export async function updateCompany(company)
 // {
 //     let updateCompany = apiEndpoint + `updateCompany`;

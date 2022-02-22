@@ -1,6 +1,26 @@
-import { ImageNotSupportedTwoTone } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import { Box, makeStyles, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+
+const useStyles = makeStyles((theme) => ({
+  formInputField: {
+    "& input:not([type=file]),& textarea": {
+      border: "none",
+      backgroundColor: "rgb(234,239,239)",
+      padding: "10px",
+      outline: "none",
+      width: "100%",
+      borderRadius: "5px",
+      fontSize: "15px",
+      resize: "none",
+      color: "rgb(120,130,146)",
+    },
+    "& img": {
+      width: "80px",
+      height: "80px",
+      borderRadius: "15px",
+    },
+  },
+}));
 
 function FormInput({
   label,
@@ -16,16 +36,8 @@ function FormInput({
   imageName,
   imageFile,
 }) {
-  console.log("To imageObj1!!");
-  console.log(imageObj);
-  // const [myImage, setMyImage] = useState({
-  //   imageSrc: "",
-  //   imageFile: null,
-  // });
-  const [test, setTest] = useState(imageObj);
   const inputType = type ?? "text";
-  console.log("To imageFile:");
-  console.log(imageFile);
+  const classes = useStyles();
   const handleOnChange = (e) => {
     if (inputType === "checkbox") {
       valueChange(objKey, e.target.checked);
@@ -36,7 +48,6 @@ function FormInput({
       if (minPrice !== null) {
         if (e.currentTarget.value < minPrice) {
           valueChange(objKey, "");
-
           return;
         }
       }
@@ -50,7 +61,6 @@ function FormInput({
       let imageFileTemp = e.target.files[0];
       const reader = new FileReader();
       reader.onload = (x) => {
-        console.log("Mesa sto onchange!!!!");
         updateImage(x.target.result, imageFileTemp);
       };
       reader.readAsDataURL(imageFileTemp);
@@ -75,21 +85,31 @@ function FormInput({
         );
       case "image":
         return (
-          <div className="imageFormWrapper">
-            {imageName !== null && imageName !== "" && (
-              <div className="imageForm">
+          <>
+            <Box display="flex" flexDirection="column">
+              {imageName !== null && imageName !== "" && (
                 <img src={imageName} />
-              </div>
-            )}
+              )}
 
-            <input
-              id="raised-button-file"
-              type="file"
-              accept="image/*"
-              disabled={disableInput ? true : false}
-              onChange={handleImageChange}
-            />
-          </div>
+              <input
+                style={{ marginTop: "5px" }}
+                id="raised-button-file"
+                type="file"
+                accept="image/*"
+                disabled={disableInput ? true : false}
+                onChange={handleImageChange}
+              />
+            </Box>
+          </>
+        );
+      case "textarea":
+        return (
+          <textarea
+            value={value}
+            rows={5}
+            disabled={disableInput ? true : false}
+            onChange={handleOnChange}
+          />
         );
       default:
         return (
@@ -107,31 +127,25 @@ function FormInput({
   };
 
   return (
-    <div className="storeFormInputWrapper">
-      <div className="storeFormInputLabel">
-        <h3>{label}</h3>
-      </div>
-      <div className="storeFormInputField">
-        {renderInput()}
-
-        {/* {type !== "checkbox" && <input
-          type={inputType}
-          value={value}
-          disabled={disableInput ? true : false}
-          onChange={handleOnChange}
-          min={minPrice}
-        />}
-        {type === "checkbox" &&
-          <input
-          type={inputType}
-          checked={value}
-          disabled={disableInput ? true : false}
-          onChange={handleOnChange}
-          min={minPrice}
-        />
-        } */}
-      </div>
-    </div>
+    <>
+      <Box
+        style={{ margin: "10px" }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="space-between"
+      >
+        <Typography
+          style={{ fontWeight: "600", marginBottom: "5px" }}
+          variant="body1"
+        >
+          {label}
+        </Typography>
+        {/* <div className="storeFormInputLabel">
+          <h3>{label}</h3>
+        </div> */}
+        <div className={classes.formInputField}>{renderInput()}</div>
+      </Box>
+    </>
   );
 }
 

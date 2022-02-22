@@ -4,8 +4,8 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from "@mui/material";
-import { Button } from "@mui/material";
+  Button,
+} from "@material-ui/core";
 import React, { createContext, useState } from "react";
 
 export function useConfirmContexState() {
@@ -74,7 +74,7 @@ export function ConfirmationDialogContextProvider(props) {
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              {state.dialogState?.detals?.body}
+              {state.dialogState?.details?.body}
             </DialogContentText>
           </DialogContent>
           <DialogActions>

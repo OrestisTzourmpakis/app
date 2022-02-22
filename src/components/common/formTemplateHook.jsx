@@ -1,27 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import FormInput from "./formInput";
 import _ from "lodash";
 import { formTypes } from "../../config.json";
-import { addCompany, updateCompany } from "../../services/companyService";
-import { addStore, updateStore } from "../../services/storeService";
-import { register, updateAccount } from "../../services/userAccountService";
-import {
-  updatePoints,
-  assignUserToCompany,
-  addPoints,
-  redeemPoints,
-} from "../../services/pointsService";
-import { addSale, updateSale } from "../../services/salesService";
 import CircularProgress from "@mui/material/CircularProgress";
 import { handleErrors } from "../../utilities/handleErrors";
-import { useLocation } from "react-router-dom";
-import Snackbar from "@mui/material/Snackbar";
-import MuiAlert from "@mui/material/Alert";
-import { red } from "@mui/material/colors";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack } from "@material-ui/icons";
+import MuiAlert from "@material-ui/lab/Alert";
+import { Snackbar } from "@material-ui/core";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

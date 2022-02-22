@@ -1,23 +1,28 @@
 import "./App.css";
-import LoginPage from "./pages/login/LoginPage";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState, useContext } from "react";
-import { tabs } from "./config.json";
-import { TabContext } from "./contexts/tabContext";
-import MainPage from "./pages/mainPage";
-import { createTheme } from "@mui/material/styles";
-import { orange } from "@mui/material/colors";
-import ExternalLoginPage from "./pages/login/externalLoginPage";
+import { UserContextProvider } from "./contexts/userContext";
+import { mainRoutes } from "./routes";
+import ConfirmationDialogContextProvider from "./contexts/confirmationDialogContext";
+import { createTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import { useEffect } from "react";
+
+const theme = createTheme({
+  palette: {},
+});
 
 function App() {
+  // const { setUserContextObject, authed } = useContext(UserContext);
+  const routes = mainRoutes();
   return (
-    <Router>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/external-login" element={<ExternalLoginPage />} />
-        <Route path="/*" element={<MainPage />} />
-      </Routes>
-    </Router>
+    <>
+      <ThemeProvider theme={theme}>
+        <UserContextProvider>
+          <ConfirmationDialogContextProvider>
+            <CssBaseline />
+            {[routes]}
+          </ConfirmationDialogContextProvider>
+        </UserContextProvider>
+      </ThemeProvider>
+    </>
   );
 }
 

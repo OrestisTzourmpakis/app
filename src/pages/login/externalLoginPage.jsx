@@ -3,7 +3,7 @@ import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/userContext";
 
 function ExternalLoginPage() {
-  const { userLogin } = useContext(UserContext);
+  const { userLogin, authed } = useContext(UserContext);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -14,18 +14,21 @@ function ExternalLoginPage() {
       const loginProvider = searchParams.get("loginProvider");
       if (email !== null && providerKey !== null && loginProvider !== null) {
         // go to the login
-        await userLogin({ email, providerKey, loginProvider });
-        console.log(email);
-        console.log(providerKey);
-        console.log(loginProvider);
+        try {
+          await userLogin({ email, providerKey, loginProvider });
+          navigate("/");
+        } catch (ex) {
+          console.log(ex);
+          //let response = ex.response.data.errorMessage;
+          navigate("/login", {
+            state: {
+              error: { ex },
+            },
+          });
+        }
       }
     };
-    try {
-      Init();
-    } catch (ex) {
-    } finally {
-      navigate("/");
-    }
+    Init();
   }, []);
 
   return <div>Redirecting please wait....</div>;

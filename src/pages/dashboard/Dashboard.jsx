@@ -2,11 +2,11 @@ import "./Dashboard.css";
 import { TabContext } from "../../contexts/tabContext";
 import { useContext } from "react";
 import { tabs } from "../../config.json";
-import { Grid } from "@mui/material";
+import { Grid } from "@material-ui/core";
 import WidgetLg from "../../components/widgets/WidgetLg";
 import LineChartCustom from "../../components/charts/LineChart";
 import { chartData } from "../../services/dummyData";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid } from "@material-ui/data-grid";
 import { users } from "../../services/dummyData";
 import { Link } from "react-router-dom";
 import _ from "lodash";
@@ -17,7 +17,7 @@ import {
   Store,
   Loyalty,
   PermIdentity,
-} from "@mui/icons-material";
+} from "@material-ui/icons";
 
 export default function Dashboard() {
   const columns = [

@@ -8,29 +8,104 @@ import {
   getAllSales,
   addSale,
   updateSale,
+  deleteSale,
 } from "../../services/salesService";
 import { useState } from "react";
 import { useEffect } from "react";
 import { UserContext } from "../../contexts/userContext";
-import { Button } from "@mui/material";
-import { Edit, Visibility, Delete } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Container,
+  IconButton,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@material-ui/core";
+import {
+  Edit,
+  Visibility,
+  DeleteOutline,
+  ArrowBack,
+  Add,
+} from "@material-ui/icons";
+import { red } from "@material-ui/core/colors";
+import { ConfirmationDialogContext } from "../../contexts/confirmationDialogContext";
+import useTable from "../../components/common/useTable";
 
 function Sales() {
   const [sales, setSales] = useState([]);
-  const { authed } = useContext(UserContext);
-  const userEmail = authed.email;
+  const { authed, isAdmin, companyOwnerEmail } = useContext(UserContext);
+  const [admin, setAdmin] = useState(isAdmin());
+  const { openDialog } = useContext(ConfirmationDialogContext);
   const location = useLocation();
+  const userEmail = isAdmin() ? companyOwnerEmail : authed.email;
   const navigate = useNavigate();
-  useEffect(async () => {
-    // get the company id from the
-    // get the context!!
+  console.log(admin);
+  const salesColumn = [
+    { id: "title", label: "Title" },
+    { id: "dateStart", label: "Date Start" },
+    { id: "dateEnd", label: "Date End" },
+    { id: "actions", label: "Action", avoidSearch: true },
+  ];
+  const {
+    TableContainer,
+    TableHeader,
+    TablePaginationCustom,
+    recordsAfterPaging,
+  } = useTable(sales, salesColumn, ["title", "dateStart", "dateEnd"]);
+  useEffect(() => {
+    console.log("mesa sto ");
+    const Init = async () => {
+      console.log(companyOwnerEmail);
+      console.log("called");
 
-    const { data } = await getSaleById(userEmail);
-    setSales(data);
-  }, []);
+      const { data } = await getSaleById(userEmail);
+      setSales(data);
+    };
+    Init();
+  }, [authed, companyOwnerEmail]);
+
+  useEffect(() => {
+    setAdmin(isAdmin());
+  }, [authed]);
+
+  const handleAddSale = (e) => {
+    e.preventDefault();
+    let addPath = location.pathname + "/add";
+    navigate(addPath);
+  };
 
   const handleAdd = async (neew) => {
     await addSale(neew);
+  };
+
+  const handleOnDelete = (params) => {
+    openDialog({
+      title: "Delete sale?",
+      body: "Are you sure you want to delete this sale?",
+      yesButton: "Yes",
+      noButton: "No",
+      callback: () => handleDelete(params.row.id),
+    });
+  };
+
+  const handleDelete = async (id) => {
+    let salesInitial = [...sales];
+    try {
+      if (id === null) return;
+      let salesTemp = sales.filter((c) => c.id !== id);
+      console.log("Sales temp:");
+      console.log(salesTemp);
+      setSales([...salesTemp]);
+      // call the api!!
+      await deleteSale(id);
+    } catch (e) {
+      // delete the store here!!!
+      setSales([...salesInitial]);
+      console.log("Error in the handleDelete");
+    }
   };
 
   const handleEditClick = (row) => {
@@ -42,83 +117,65 @@ function Sales() {
     });
   };
 
-  const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      width: 90,
-      renderCell: (params) => {
-        return <div>{params.row.id}</div>;
-      },
-    },
-    {
-      field: "title",
-      headerName: "Title",
-      width: 90,
-      renderCell: (params) => {
-        return <div>{params.row.title}</div>;
-      },
-    },
-    {
-      field: "dateStart",
-      headerName: "Date Start",
-      width: 110,
-      renderCell: (params) => {
-        return <div>{params.row.dateStart}</div>;
-      },
-    },
-    {
-      field: "dateEnd",
-      headerName: "Date End",
-      width: 110,
-      renderCell: (params) => {
-        return <div>{params.row.dateEnd}</div>;
-      },
-    },
-    {
-      field: "edit",
-      headerName: "View / Edit",
-      renderCell: (params) => {
-        return (
-          <>
-            <Button
-              color="secondary"
-              onClick={() => handleEditClick(params.row)}
-              variant="contained"
-              startIcon={<Edit />}
-            >
-              Edit
-            </Button>
-          </>
-        );
-      },
-    },
-    {
-      field: "delete",
-      headerName: "Delete",
-      renderCell: (params) => {
-        return (
-          <>
-            <Button
-              color="secondary"
-              onClick={() => handleEditClick(params.row)}
-              variant="contained"
-              startIcon={<Edit />}
-            >
-              Edit
-            </Button>
-          </>
-        );
-      },
-    },
-  ];
   return (
-    <DataTablePageTemplate
-      title="Sales"
-      row={sales}
-      columns={columns}
-      locationState={{ email: userEmail }}
-    />
+    <Container>
+      <Box display="flex" justifyContent="space-between" alignItems="center">
+        {admin ? (
+          <IconButton onClick={() => navigate(-1)}>
+            <ArrowBack />
+          </IconButton>
+        ) : (
+          <div></div>
+        )}
+
+        {/* <IconButton onClick={() => navigate(-1)}>
+          <ArrowBack />
+        </IconButton> */}
+        <Typography variant="body1">Sales</Typography>
+        <Button
+          onClick={handleAddSale}
+          color="primary"
+          startIcon={<Add />}
+          variant="contained"
+          size="small"
+        >
+          Add Sale
+        </Button>
+      </Box>
+      <Box
+        style={{ marginTop: "20px" }}
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+      >
+        <TableContainer key="tableContainer">
+          <TableHeader />
+          <TableBody>
+            {recordsAfterPaging().map((item) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.title}</TableCell>
+                <TableCell>{item.dateStart}</TableCell>
+                <TableCell>{item.dateEnd}</TableCell>
+                <TableCell>
+                  <Box display="flex">
+                    <IconButton
+                      onClick={() => handleEditClick(item)}
+                      color="primary"
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton onClick={handleOnDelete}>
+                      <DeleteOutline color="error" />
+                    </IconButton>
+                  </Box>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </TableContainer>
+        <TablePaginationCustom />
+      </Box>
+    </Container>
   );
 }
 

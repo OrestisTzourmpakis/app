@@ -1,7 +1,6 @@
 import React from "react";
 import "./Store.css";
-import StoreFormInput from "./StoreFormInput";
-import { Edit } from "@mui/icons-material";
+import { Edit } from "@material-ui/icons";
 
 export default function Store() {
   return (

@@ -10,9 +10,9 @@ export async function updatePoints(user)
     return data;
 }
 
-export async function getUserPointsPerCompany(id)
+export async function getUserPointsPerCompany(email,ownerEmail)
 {
-    let userPoints = apiEndpoint + `getUserPointsPerCompany?id=${id}`;
+    let userPoints = apiEndpoint + `getUserPointsPerCompany?email=${email}&ownerEmail=${ownerEmail}`;
     const { data } = await http.get(userPoints);
     return data;
 }
@@ -31,6 +31,8 @@ export async function assignUserToCompany()
 
 export async function addPoints(model)
 {
+    console.log("Points addd");
+    console.log(model);
     let points = model.euro * model.euroToPointsRatio;
     let addPoints = apiEndpoint + "addPoints";
     model.points = points;

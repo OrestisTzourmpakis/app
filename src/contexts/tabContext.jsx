@@ -3,9 +3,10 @@ import { tabs } from "../config.json";
 
 export const TabContext = createContext();
 export function TabContextProvider(props) {
-  const [tab, setTab] = useState(tabs.Dashboard);
+  const [tab, setTab] = useState(tabs.Analytics);
 
   const changeTab = (newTab) => {
+    console.log("called!");
     setTab(newTab);
   };
 

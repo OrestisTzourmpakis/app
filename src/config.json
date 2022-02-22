@@ -1,37 +1,41 @@
 {
-    "tabs":{
-        "Dashboard":0,
-        "Analytics":1,
-        "Sales":2,
-        "Companies":3,
-        "Users":4,
-        "Product Sales":5,
-        "Reports":6,
-        "Stores":7
-    },
-    "roles":{
-        "Administrator":"Administrator",
-        "CompanyOwner":"CompanyOwner"
-    },
-    "apiUrl":"https://localhost:4004/api",
-    "formTypes":{
-        "add":0,
-        "edit":1,
-        "view":2
-    },
-    "formTemplates":{
-        "company":0,
-        "users":1,
-        "sales":2,
-        "stores":3,
-        "addPoints":4,
-        "redeemPoints":5,
-        "assignUser":6
-    },
-    "formInputTypes":{
-        "checkbox":0,
-        "number":1,
-        "text":2,
-        "date":3
-    }
+  "tabs": {
+    "Dashboard": 0,
+    "Analytics": 1,
+    "Sales": 2,
+    "Companies": 3,
+    "Users": 4,
+    "Product Sales": 5,
+    "Reports": 6,
+    "Stores": 7
+  },
+  "roles": {
+    "Administrator": "Administrator",
+    "CompanyOwner": "CompanyOwner"
+  },
+  "apiUrl": "https://localhost:4004/api",
+  "formTypes": {
+    "add": 0,
+    "edit": 1,
+    "view": 2
+  },
+  "formTemplates": {
+    "company": 0,
+    "users": 1,
+    "sales": 2,
+    "stores": 3,
+    "addPoints": 4,
+    "redeemPoints": 5,
+    "assignUser": 6
+  },
+  "formInputTypes": {
+    "checkbox": 0,
+    "number": 1,
+    "text": 2,
+    "date": 3
+  },
+  "applicationColors": {
+    "greenBg": "rgb(45,197,139)",
+    "greenBgHover": "rgb(45,160,139)"
+  }
 }

@@ -10,10 +10,6 @@ function RequireAuth({ children, admin }) {
   const isExpired = checkIfExpired();
   const { tab, changeTab } = useContext(TabContext);
   const navigateFunction = () => {
-    console.log("Mesa sto requireAuth");
-    console.log(`To authed object mou:${authed}`);
-    console.log(authed);
-    console.log(`To roles apo to config mou: ${roles.Administrator} `);
     if (admin && authed.role !== roles.Administrator) {
       changeTab(tabs.Dashboard);
       return <Navigate to="/" replace />;
@@ -21,10 +17,6 @@ function RequireAuth({ children, admin }) {
       return children;
     }
   };
-  // if (isExpired) {
-  //   setUserContextObject();
-  // }
-  //return true ? children : <Navigate to="/login" replace />;
   return isExpired ? navigateFunction() : <Navigate to="/login" replace />;
 }
 

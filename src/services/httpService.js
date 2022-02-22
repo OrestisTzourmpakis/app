@@ -1,13 +1,8 @@
 import axios from "axios";
 import logger from "./logService";
 
-
+axios.defaults.withCredentials = true;
 axios.interceptors.response.use(null, error => {
-    // if (error.response.status === 401)
-    // {
-    //     let navigate = useNavigate();
-    //     navigate("login");
-    //     }
     const expectedError = 
         error.response &&
         error.response.status >= 400 &&
