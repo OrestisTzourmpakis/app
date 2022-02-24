@@ -16,10 +16,6 @@ export default function WidgetLg({
         <h3>{bodyNumber}</h3>
         {Icon}
       </div>
-      <div className="widgetLgFooter">
-        <h3>{footerNumber}</h3>
-        <h4>{footerTitle}</h4>
-      </div>
     </div>
   );
 }

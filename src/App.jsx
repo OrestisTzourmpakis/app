@@ -10,6 +10,9 @@ const theme = createTheme({
 });
 
 function App() {
+  useEffect(() => {
+    console.log("App js called");
+  }, []);
   // const { setUserContextObject, authed } = useContext(UserContext);
   const routes = mainRoutes();
   return (

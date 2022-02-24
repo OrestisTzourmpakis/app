@@ -20,6 +20,11 @@ export function useAuth() {
     authed: false,
     companyId: null,
   });
+
+  useEffect(() => {
+    console.log("useAuth called");
+  }, []);
+
   // if we are admin
   const [companyOwnerEmail, setCompanyOwnerEmail] = useState(null);
   const [menu, setMenu] = useState(dashboardMenu);
@@ -92,6 +97,9 @@ export function useAuth() {
 export const UserContext = createContext();
 export function UserContextProvider(props) {
   const auth = useAuth();
+  useEffect(() => {
+    console.log("usercontext called!!!");
+  }, []);
 
   return (
     <UserContext.Provider value={{ ...auth }}>

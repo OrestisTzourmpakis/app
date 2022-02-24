@@ -19,6 +19,8 @@ function MainPage() {
   };
 
   useEffect(() => {
+    console.log("Main Page called");
+    // call the server to get the data and save the user after that!!
     setUserContextObject();
   }, []);
 
