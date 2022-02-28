@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Topbar({ showMenu, toggle, setToggle }) {
   const classes = useStyles();
   const { authed } = useContext(UserContext);
+  console.log("Sto topbar:", authed);
   const toggleTopbarSection = () => {
     setToggle(!toggle);
   };

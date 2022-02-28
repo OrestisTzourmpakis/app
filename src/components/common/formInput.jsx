@@ -102,6 +102,16 @@ function FormInput({
             </Box>
           </>
         );
+      case "tel":
+        return (
+          <input
+            type="tel"
+            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+            value={value}
+            disabled={disableInput ? true : false}
+            onChange={handleOnChange}
+          />
+        );
       case "textarea":
         return (
           <textarea

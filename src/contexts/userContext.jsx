@@ -5,8 +5,6 @@ import {
   login,
   logout,
   checkIfExpired,
-  setJwtUser,
-  setUser,
   getUser,
 } from "../services/userAccountService";
 import { dashboardMenu } from "../utilities/data";
@@ -41,17 +39,14 @@ export function useAuth() {
     }
   }, [authed]);
 
-  // useEffect(() => {
-  //   setUserContextObject();
-  // }, []);
-
   const userLogin = async (model) => {
     const userDetails = await login(model);
     const checkIfAdmin = userDetails.roles.filter(
       (c) => c === roles.Administrator || c === roles.CompanyOwner
     );
+    console.log("Check if admin:", checkIfAdmin);
     if (checkIfAdmin.length === 0) throw "Access denied";
-    setJwtUser(userDetails);
+    // setJwtUser(userDetails);
     const userRole = checkIfAdmin.includes(roles.Administrator)
       ? roles.Administrator
       : roles.CompanyOwner;
@@ -63,11 +58,33 @@ export function useAuth() {
       role: userRole,
       companyId: userDetails.companyId,
     };
-    setUser(userObject);
+    // setUser(userObject);
     setAuthed({ ...userObject, authed: true });
   };
-  const setUserContextObject = () => {
-    setAuthed({ ...getUser(), authed: true });
+
+  const userDetailObject = (userDetails) => {
+    const check = userDetails.roles.filter(
+      (c) => c === roles.Administrator || c === roles.CompanyOwner
+    );
+    console.log("To check sto userdetailsobjecxt", check);
+    //if (check.length === 0) throw "Not authorized";
+    const role = check.includes(roles.Administrator)
+      ? roles.Administrator
+      : roles.CompanyOwner;
+    // se the user here!!
+    const obj = {
+      id: userDetails.id,
+      username: userDetails.userName,
+      email: userDetails.email,
+      role: role,
+      companyId: userDetails.companyId,
+    };
+    return obj;
+  };
+
+  const setUserContextObject = (response) => {
+    console.log("To response sto usercontext:", response);
+    setAuthed({ ...authed, ...response, authed: true });
   };
   const isAdmin = () => {
     if (authed.role === roles.Administrator) {
@@ -85,10 +102,11 @@ export function useAuth() {
     authed,
     userLogin,
     logout,
-    checkIfExpired,
     setUserContextObject,
     isAdmin,
     menu,
+    userDetailObject,
+    setAuthed,
     companyOwnerEmail,
     changeCompanyOnwer,
   };

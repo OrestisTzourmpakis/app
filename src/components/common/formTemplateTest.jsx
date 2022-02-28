@@ -61,6 +61,7 @@ function FormTemplate({
   handleDisableInput,
   addText,
   validations,
+  customHandleClick,
 }) {
   const [errors, setErrors] = useState([]);
   const [showSnackbar, setShowSnackbar] = useState(false);

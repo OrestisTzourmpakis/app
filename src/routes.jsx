@@ -157,6 +157,7 @@ export const createRoutes = () => (
           <StoresForm
             defaultData={{
               address: "",
+              telephone: "",
             }}
             formType={formTypes.add}
           />

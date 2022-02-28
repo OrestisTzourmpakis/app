@@ -133,6 +133,7 @@ export default function Stores() {
             onClick={handleAssignUser}
             color="primary"
             startIcon={<Add />}
+            style={{ marginRight: "10px" }}
             variant="contained"
             size="small"
           >

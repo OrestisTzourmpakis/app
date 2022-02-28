@@ -42,6 +42,7 @@ export default function useTable(records, headCells, searchKeys) {
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
   let [filteredRecords, setFilteredRecords] = useState(records);
+  console.log("Ta filtered Records:", filteredRecords);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState("");
   // order is asc or desc
@@ -50,7 +51,8 @@ export default function useTable(records, headCells, searchKeys) {
   const [orderBy, setOrderBy] = useState();
 
   useEffect(() => {
-    setFilteredRecords(records);
+    setFilteredRecords(records === null ? [] : records);
+    console.log("Ta records:", records);
   }, [records]);
 
   useEffect(() => {

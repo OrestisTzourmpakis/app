@@ -17,6 +17,7 @@ import {
 import { useTheme } from "@material-ui/styles";
 import { applicationColors } from "../../config.json";
 import clsx from "clsx";
+import { authenticateUser } from "../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   boxWrapper: {
@@ -85,6 +86,7 @@ export default function LoginPage() {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { authed } = useContext(UserContext);
   const person = <Person className="icon" />;
   const passwordIcon = <Lock className="icon" />;
   const location = useLocation();
@@ -104,10 +106,21 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
+    const Init = async () => {
+      try {
+        const result = await authenticateUser();
+        if (result.roles.length === 0) return;
+        navigate("/");
+      } catch (ex) {}
+      console.log("sto login page:", authed);
+      if (location.state === null) return;
+      console.log(location.state.ex);
+      setErrors([location.state.error.ex]);
+    };
     // check if i have location state!!!!
-    if (location.state === null) return;
-    console.log(location.state.ex);
-    setErrors([location.state.error.ex]);
+    // check if user is authenticated!!
+
+    Init();
   }, []);
 
   const handleEmailChange = (newValue) => {
@@ -178,7 +191,7 @@ export default function LoginPage() {
                 </Box>
               </Box>
             </form>
-            <Box display="flex" flexDirection="column" a>
+            <Box display="flex" flexDirection="column">
               <form
                 className="googleForm"
                 method="GET"

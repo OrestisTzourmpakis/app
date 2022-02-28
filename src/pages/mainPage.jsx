@@ -8,20 +8,43 @@ import { UserContext } from "../contexts/userContext";
 import FormContextProvoder from "../contexts/formContext";
 import { createRoutes } from "../routes";
 import MobileNavigation from "../components/mobileNavigation";
+import { authenticateUser } from "../services/userService";
+import { useNavigate } from "react-router-dom";
 
 function MainPage() {
   const [hide, setHide] = useState(true);
   const routes = createRoutes();
-  const { setUserContextObject, menu } = useContext(UserContext);
+  const navigate = useNavigate();
+  const { setUserContextObject, userDetailObject, menu, authed, setAuthed } =
+    useContext(UserContext);
   const [toggleTopbarSection, setToggleTopbarSection] = useState(true);
   const hideMenu = () => {
     setHide(!hide);
   };
 
   useEffect(() => {
-    console.log("Main Page called");
-    // call the server to get the data and save the user after that!!
-    setUserContextObject();
+    const Init = async () => {
+      //console.log("Main Page called");
+      // call the server to get the data and save the user after that!!
+      console.log("Inside the main page useeffect");
+      if (authed.email === "") {
+        console.log("Authed email does not exists get it!!!");
+        try {
+          const response = await authenticateUser();
+          if (response.roles.length === 0) throw "asdfasdf";
+          const obj = userDetailObject(response);
+          console.log("To response apo to authenticate user!!!", response);
+          setAuthed({ ...obj });
+          return;
+        } catch (ex) {
+          console.log("error");
+          console.log("Error sto authenticate user:", ex);
+          navigate("/login");
+        }
+      }
+      //navigate("/login");
+    };
+    Init();
   }, []);
 
   const handleClick = () => {

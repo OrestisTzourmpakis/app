@@ -31,6 +31,20 @@ export async function getUser(email)
     const { data } = await http.get(user);
     return data;
 }
+
+export async function authenticateUser()
+{
+    let endpoint = apiEndpoint + "authenticateUser";
+    const { data } = await http.post(endpoint);
+    return data;
+}
+
+export async function logOut()
+{
+    let endpoint = apiEndpoint + "logout";
+    const result = await http.post(endpoint);
+}
+
 // export async function updateCompany(company)
 // {
 //     let updateCompany = apiEndpoint + `updateCompany`;

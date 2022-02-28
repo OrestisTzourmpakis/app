@@ -116,14 +116,14 @@ export default function Dashboard() {
           last6Months = [...last6MonthsAdmin];
           totalPoints = [...totalRedeemAdmin];
           setLast6Months(last6Months);
-          setTotalRedeemEarnedPoints(totalPoints);
+          //setTotalRedeemEarnedPoints(totalPoints);
         } else {
           const top30Users = await getTop30Users(userEmail);
           setTop30Users(top30Users.data);
           last6Months = await getLast6Months(userEmail);
-          totalPoints = await getTotalRedeemEarnedPoints(userEmail);
+          // totalPoints = await getTotalRedeemEarnedPoints(userEmail);
           setLast6Months(last6Months.data);
-          setTotalRedeemEarnedPoints(totalPoints.data);
+          //setTotalRedeemEarnedPoints(totalPoints.data);
         }
 
         setTotalUsers(users.data);
@@ -133,7 +133,7 @@ export default function Dashboard() {
       } catch (ex) {}
     };
     Init();
-  }, []);
+  }, [authed]);
 
   return (
     <div className="dashboardWrapper">
@@ -211,19 +211,30 @@ export default function Dashboard() {
           mt={2}
           style={{ marginTop: "40px" }}
         >
-          <Grid item xs={12} md={6}>
+          {/* <Grid item xs={12} md={6}>
             <HorizontalBarChart data={last6Months} />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <BarChart width={200} height={250} data={totalRedeemEarnedPoints}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Bar dataKey="redeem" fill="#8884d8" />
-              <Bar dataKey="earned" fill="#82ca9d" />
-            </BarChart>
+          </Grid> */}
+          <Grid item xs={12}>
+            <Box display="flex" alignItems="center" flexDirection="column">
+              <Typography variant="h5" style={{ marginBottom: "30px" }}>
+                Total Earned and Redeem Points in the last 6 Monhts
+              </Typography>
+              <BarChart width={700} height={300} data={last6Months}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="name"
+                  interval={0}
+                  dx={10}
+                  dy={-3}
+                  minTickGap={-200}
+                />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="redeemed" fill="#8884d8" />
+                <Bar dataKey="earned" fill="#82ca9d" />
+              </BarChart>
+            </Box>
           </Grid>
         </Grid>
       </Grid>

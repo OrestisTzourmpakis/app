@@ -12,6 +12,7 @@ import {
 } from "@material-ui/core";
 import clsx from "clsx";
 import { AccountBox, Business, PowerSettingsNew } from "@material-ui/icons";
+import { logOut } from "../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
   topbarSectionWrapper: {
@@ -47,9 +48,9 @@ export default function TopbarSection({ hide, handleClick }) {
     [classes.topbarSectionWrapper]: true,
     [classes.hideTopbarSection]: hide,
   });
-  const handleLogout = () => {
+  const handleLogout = async () => {
     // clear local storage and then redirect to login page!!
-    localStorage.clear();
+    const result = await logOut();
     navigate("/login");
   };
   return (

@@ -7,7 +7,7 @@ const tokenKey = "token";
 const userObject = "user";
 export async function login(model)
 {
-    let login = apiEndpoint +"login";
+    let login = apiEndpoint +"loginAdmin";
     const result = await http.post(login,model,{widthCredentials:true});
     console.log(result);
     // save the user info too..
@@ -28,37 +28,12 @@ export function setUser(data)
     localStorage.setItem(userObject,JSON.stringify(data));
 }
 
-export function getUser()
-{
-    return JSON.parse(localStorage.getItem(userObject));
-}
 
 export function logout() {
     localStorage.removeItem(tokenKey);
 }
   
-export function checkIfExpired() {
-    try {
-        console.log("mphkje edw");
-        const jwt = localStorage.getItem(tokenKey);
-        console.log("Check user in localstoreage:");
-        const user = localStorage.getItem(userObject);
-        console.log(user);
-        if (jwt == null || user == null) return false;
-        setJwt(jwt);
-        var dateNow = new Date();
-        var decodedToken = jwtDecode(jwt);
-        if (decodedToken.exp * 1000 < dateNow.getTime()) {
-            console.log("Einai false to jwt!!!!");
-            return false;
-        }
-        else {
-            return true;
-        }
-    } catch (ex) {
-      return null;
-    }
-}
+
   
 export async function register(user) {
     let registerUser = apiEndpoint +"registerfromadmin";
