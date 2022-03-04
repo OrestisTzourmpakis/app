@@ -1,10 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from "@react-google-maps/api";
+import React, { useCallback, useRef, useState } from "react";
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import mapStyles from "../../utilities/mapStyles";
 import { Box, makeStyles, Typography } from "@material-ui/core";
 
@@ -44,16 +39,16 @@ export function GoogleMapContainer({ marker }) {
   });
   const classes = useStyles();
   const [markers, setMarkers] = useState([]);
-  const onMapClick = useCallback((event) => {
-    setMarkers([
-      ...markers,
-      {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-        time: new Date(),
-      },
-    ]);
-  }, []);
+  // const onMapClick = useCallback((event) => {
+  //   setMarkers([
+  //     ...markers,
+  //     {
+  //       lat: event.latLng.lat(),
+  //       lng: event.latLng.lng(),
+  //       time: new Date(),
+  //     },
+  //   ]);
+  // }, []);
 
   const mapRef = useRef();
   const onMapLoad = useCallback((map) => {

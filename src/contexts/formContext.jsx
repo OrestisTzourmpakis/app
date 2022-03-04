@@ -5,16 +5,10 @@ function FormContextProvoder(props) {
   const [data, setData] = useState({
     data: "",
     methods: {
-      addMethod: () => {
-        console.log("Added");
-      },
-      updateMethod: () => {
-        console.log("Updated");
-      },
+      addMethod: () => {},
+      updateMethod: () => {},
     },
-    validation: () => {
-      console.log("Validate");
-    },
+    validation: () => {},
   });
   return (
     <FormContext.Provider value={{ ...data }}>

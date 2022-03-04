@@ -1,7 +1,7 @@
 import React from "react";
 import FormInput from "../../components/common/formInput";
 import { addSale, updateSale } from "../../services/salesService";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { formTypes } from "../../config.json";
 import { useContext } from "react";
@@ -42,8 +42,6 @@ function SalesForm({ defaultData, formType }) {
   const addSaleValidation = () => {
     const errors = [];
     const data = { ...dataForm.details };
-    console.log("Ta sales data:");
-    console.log(data);
     if (data.title === null || data.title.trim() === "") {
       errors.push("Title is required.");
     }
@@ -66,8 +64,6 @@ function SalesForm({ defaultData, formType }) {
   const updateSaleValidation = () => {
     const errors = [];
     const data = { ...dataForm.details };
-    console.log("Ta sales data:");
-    console.log(data);
     if (data.title === null || data.title.trim() === "") {
       errors.push("Title is required.");
     }

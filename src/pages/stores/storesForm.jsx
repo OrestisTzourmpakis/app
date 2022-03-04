@@ -3,7 +3,7 @@ import FormInput from "../../components/common/formInput";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { formTypes } from "../../config.json";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { addStore, updateStore } from "../../services/storeService";
 import _ from "lodash";
 import { FormInputHook } from "../../utilities/formInputHook";
@@ -109,6 +109,7 @@ function StoresForm({ defaultData, formType }) {
       return;
     }
     try {
+      console.log("To details address", dataForm.details.address);
       var response = await Geocode.fromAddress(dataForm.details.address);
       const { lat, lng } = response.results[0].geometry.location;
       setMarker({ lat, lng });

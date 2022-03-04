@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import FormInput from "../../components/common/formInput";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { updateAccount } from "../../services/userAccountService";
 import { getUser } from "../../services/userService";

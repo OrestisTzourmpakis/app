@@ -59,3 +59,4 @@ export async function getTop30Users(email = null)
     });
     return data;
 }
+

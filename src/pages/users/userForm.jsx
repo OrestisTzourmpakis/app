@@ -4,7 +4,7 @@ import FormInput from "../../components/common/formInput";
 import { formTypes } from "../../config.json";
 import { checkUserRole } from "../../services/userAccountService";
 import { FormInputHook } from "../../utilities/formInputHook";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { register, updateAccount } from "../../services/userAccountService";
 import { UserContext } from "../../contexts/userContext";
 
@@ -17,16 +17,11 @@ function UserForm({ defaultData, formType }) {
     handleDisableInput,
   } = FormInputHook({ defaultData, formType });
   const { authed, isAdmin } = useContext(UserContext);
-  const [owner, setOwner] = useState(dataForm.details["owner"]);
   useEffect(() => {
     const init = async () => {
       if (formType === formTypes.view) {
         // get user role!!! check if his roles!!
         let result = await checkUserRole(dataForm.details["email"]);
-        console.log("To result:");
-        console.log(result);
-        //setInitialValue({ ...initialValue, owner: result });
-        //setDetails({...details,owner:result});
         setDataForm({
           initialData: { ...dataForm.initialData, owner: result },
           details: { ...dataForm.details, owner: result },
@@ -111,17 +106,6 @@ function UserForm({ defaultData, formType }) {
             valueChange={updateValue}
             disableInput={disableInput}
           />
-
-          {/* {formType === formTypes.add && (
-            <FormInput
-              label="Password"
-              value={dataForm.details["password"]}
-              objKey="password"
-              type="password"
-              valueChange={updateValue}
-              disableInput={disableInput}
-            />
-          )} */}
           {isAdmin() && (
             <FormInput
               label="Company Owner"

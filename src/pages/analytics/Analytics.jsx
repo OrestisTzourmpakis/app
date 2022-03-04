@@ -1,11 +1,9 @@
-import "./Dashboard.css";
 import { useContext } from "react";
 import {
   Box,
+  Container,
   Divider,
   Grid,
-  IconButton,
-  Paper,
   TableBody,
   TableCell,
   TableRow,
@@ -37,6 +35,7 @@ import {
   YAxis,
 } from "recharts";
 import { makeStyles } from "@material-ui/styles";
+import { dateConfiguration } from "../../utilities/dataConfiguration";
 
 const useStyles = makeStyles((theme) => ({
   tableWrapper: {
@@ -45,13 +44,12 @@ const useStyles = makeStyles((theme) => ({
   horizontalChartWrapper: {},
   verticalChartWrapper: {},
 }));
-export default function Dashboard() {
+export default function Analytics() {
   const { isAdmin, authed } = useContext(UserContext);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalStores, setTotalStores] = useState(0);
   const [totalSales, setTotalSales] = useState(0);
   const [last6Months, setLast6Months] = useState([]);
-  const [totalRedeemEarnedPoints, setTotalRedeemEarnedPoints] = useState([]);
   const [top30Users, setTop30Users] = useState([]);
   const classes = useStyles();
   const top30UsersColumns = [
@@ -112,33 +110,29 @@ export default function Dashboard() {
         const stores = await getTotalStores(userEmail);
         let last6Months;
         let totalPoints;
+        const top30Users = await getTop30Users(userEmail);
+        setTop30Users(top30Users.data);
         if (isAdmin()) {
           last6Months = [...last6MonthsAdmin];
           totalPoints = [...totalRedeemAdmin];
           setLast6Months(last6Months);
-          //setTotalRedeemEarnedPoints(totalPoints);
         } else {
-          const top30Users = await getTop30Users(userEmail);
-          setTop30Users(top30Users.data);
           last6Months = await getLast6Months(userEmail);
-          // totalPoints = await getTotalRedeemEarnedPoints(userEmail);
           setLast6Months(last6Months.data);
-          //setTotalRedeemEarnedPoints(totalPoints.data);
         }
 
         setTotalUsers(users.data);
         setTotalStores(stores.data);
         setTotalSales(activeSales.data);
-        console.log("Ta data:", activeSales.data);
       } catch (ex) {}
     };
     Init();
   }, [authed]);
 
   return (
-    <div className="dashboardWrapper">
+    <Container>
       <Grid container>
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <WidgetLg
             title="Total Stores"
             style={{
@@ -150,7 +144,7 @@ export default function Dashboard() {
             footerTitle="Last Month"
           />
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <WidgetLg
             title="Active Sales"
             style={{
@@ -162,7 +156,7 @@ export default function Dashboard() {
             footerTitle="Last Month"
           />
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={4} xs={12}>
           <WidgetLg
             title="Total Users"
             style={{
@@ -195,7 +189,7 @@ export default function Dashboard() {
                     <TableCell>{item.username}</TableCell>
                     <TableCell>{item.email}</TableCell>
                     <TableCell>{item.total}</TableCell>
-                    <TableCell>{item.dateJoined}</TableCell>
+                    <TableCell>{dateConfiguration(item.dateJoined)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -211,9 +205,6 @@ export default function Dashboard() {
           mt={2}
           style={{ marginTop: "40px" }}
         >
-          {/* <Grid item xs={12} md={6}>
-            <HorizontalBarChart data={last6Months} />
-          </Grid> */}
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" flexDirection="column">
               <Typography variant="h5" style={{ marginBottom: "30px" }}>
@@ -238,6 +229,6 @@ export default function Dashboard() {
           </Grid>
         </Grid>
       </Grid>
-    </div>
+    </Container>
   );
 }

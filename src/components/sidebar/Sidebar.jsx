@@ -19,11 +19,15 @@ const useStyles = makeStyles((theme) => ({
   sidebarTitleWrapper: {
     display: "flex",
     alignItems: "center",
-    marginLeft: "20px",
+    marginLeft: "0px",
     height: "60px",
   },
   sidebarLogo: {
     color: "rgb(45,197,139)",
+  },
+  logo: {
+    height: "60px",
+    width: "60px",
   },
 }));
 export default function Sidebar({ menu }) {
@@ -31,9 +35,13 @@ export default function Sidebar({ menu }) {
   return (
     <div className={classes.sidebar}>
       <div className={classes.sidebarTitleWrapper}>
-        <Facebook className={classes.sidebarLogo} />
+        {/* <Facebook className={classes.sidebarLogo} /> */}
+        <img
+          src={process.env.PUBLIC_URL + "/logo.png"}
+          className={classes.logo}
+        />
         <Typography variant="h5" className={classes.sidebarTitle}>
-          SideBar
+          Loyalty Admin
         </Typography>
       </div>
       <hr className={classes.divider} />

@@ -1,15 +1,13 @@
 import React from "react";
 import { useState } from "react";
-import _, { add } from "lodash";
-import { formTypes, formTemplates } from "../../config.json";
+import _ from "lodash";
+import { formTypes } from "../../config.json";
 import { handleErrors } from "../../utilities/handleErrors";
-import { useLocation } from "react-router-dom";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import { red } from "@material-ui/core/colors";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowBack, CallMissedSharp, Edit } from "@material-ui/icons";
+import { ArrowBack } from "@material-ui/icons";
 import { green } from "@material-ui/core/colors";
 import {
   Box,
@@ -21,7 +19,6 @@ import {
   makeStyles,
   Paper,
 } from "@material-ui/core";
-import clsx from "clsx";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });

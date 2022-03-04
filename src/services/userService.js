@@ -45,9 +45,4 @@ export async function logOut()
     const result = await http.post(endpoint);
 }
 
-// export async function updateCompany(company)
-// {
-//     let updateCompany = apiEndpoint + `updateCompany`;
-//     const { data } = await http.put(updateCompany, company);
-//     return data;
-// }
+

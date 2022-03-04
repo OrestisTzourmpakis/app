@@ -1,5 +1,4 @@
 import React from "react";
-import "./Store.css";
 import { Edit } from "@material-ui/icons";
 
 export default function Store() {

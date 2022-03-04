@@ -1,22 +1,12 @@
-import { Person, Lock, Facebook } from "@material-ui/icons";
+import { Person, Lock } from "@material-ui/icons";
 import LoginCustomInput from "./LoginCustomInput";
-//import "./LoginPage.css";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleErrors } from "../../utilities/handleErrors";
 import { UserContext } from "../../contexts/userContext";
 import { useLocation } from "react-router-dom";
-import {
-  Box,
-  Button,
-  IconButton,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import { useTheme } from "@material-ui/styles";
-import { applicationColors } from "../../config.json";
-import clsx from "clsx";
+import { Box, Button, makeStyles, Paper, Typography } from "@material-ui/core";
+import { applicationColors, apiUrl } from "../../config.json";
 import { authenticateUser } from "../../services/userService";
 
 const useStyles = makeStyles((theme) => ({
@@ -86,11 +76,9 @@ export default function LoginPage() {
   const [errors, setErrors] = useState([]);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { authed } = useContext(UserContext);
   const person = <Person className="icon" />;
   const passwordIcon = <Lock className="icon" />;
   const location = useLocation();
-  const theme = useTheme();
   const { userLogin } = useContext(UserContext);
   const classes = useStyles();
   let navigate = useNavigate();
@@ -112,14 +100,9 @@ export default function LoginPage() {
         if (result.roles.length === 0) return;
         navigate("/");
       } catch (ex) {}
-      console.log("sto login page:", authed);
       if (location.state === null) return;
-      console.log(location.state.ex);
       setErrors([location.state.error.ex]);
     };
-    // check if i have location state!!!!
-    // check if user is authenticated!!
-
     Init();
   }, []);
 
@@ -195,8 +178,13 @@ export default function LoginPage() {
               <form
                 className="googleForm"
                 method="GET"
-                action={"https://localhost:4004/api/useraccount/googlelogin"}
+                action={`${apiUrl}/useraccount/googlelogin`}
               >
+                <input
+                  type="hidden"
+                  name="viewUrl"
+                  value={window.location.origin.toString()}
+                />
                 <Typography
                   align="center"
                   style={{ color: "black" }}
@@ -228,59 +216,5 @@ export default function LoginPage() {
         </Paper>
       </Box>
     </>
-    // <div className="loginPage">
-    //   <div className="loginPageModal">
-    //     <Person className="personIcon" />
-    //     <div className="loginForm">
-    //       <form */}
-    //         onSubmit={(e) => {
-    //           e.preventDefault();
-    //           handleLoginClick();
-    //         }}
-    //       >
-    //         <div className="loginFormTitle">
-    //           <h3>Login</h3>
-    //         </div>
-    //         <div className="loginInput">
-    //           <LoginCustomInput
-    //             Icon={person}
-    //             value={email}
-    //             handleOnChange={handleEmailChange}
-    //           />
-    //         </div>
-    //         <div className="loginIput">
-    //           <LoginCustomInput
-    //             Icon={passwordIcon}
-    //             value={password}
-    //             type="password"
-    //             handleOnChange={handlePasswordChange}
-    //           />
-    //         </div>
-    //         <div className="errors">
-    //           <ul className="errorsList">
-    //             {errors.map((error) => (
-    //               <li>{error}</li>
-    //             ))}
-    //           </ul>
-    //         </div>
-    //         <button className="signInButton" type="submit">
-    //           Sign in
-    //         </button>
-    //       </form>
-
-    //       <form
-    //         className="googleForm"
-    //         method="GET"
-    //         action={"https://localhost:4004/api/useraccount/googlelogin"}
-    //       >
-    //         <h3>Or</h3>
-    //         <button className="googleButton" type="submit">
-    //           <Facebook />
-    //           <h4>Sign in with Google</h4>
-    //         </button>
-    //       </form>
-    //     </div>
-    //   </div>
-    // </div>
   );
 }

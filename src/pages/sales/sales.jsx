@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import DataTablePageTemplate from "../../components/common/dataTablePageTemplate";
 import {
   getSaleById,
   getAllSales,
@@ -23,16 +22,11 @@ import {
   TableRow,
   Typography,
 } from "@material-ui/core";
-import {
-  Edit,
-  Visibility,
-  DeleteOutline,
-  ArrowBack,
-  Add,
-} from "@material-ui/icons";
+import { Edit, DeleteOutline, ArrowBack, Add } from "@material-ui/icons";
 import { red } from "@material-ui/core/colors";
 import { ConfirmationDialogContext } from "../../contexts/confirmationDialogContext";
 import useTable from "../../components/common/useTable";
+import { dateConfiguration } from "../../utilities/dataConfiguration";
 
 function Sales() {
   const [sales, setSales] = useState([]);
@@ -42,7 +36,6 @@ function Sales() {
   const location = useLocation();
   const userEmail = isAdmin() ? companyOwnerEmail : authed.email;
   const navigate = useNavigate();
-  console.log(admin);
   const salesColumn = [
     { id: "title", label: "Title" },
     { id: "dateStart", label: "Date Start" },
@@ -56,11 +49,7 @@ function Sales() {
     recordsAfterPaging,
   } = useTable(sales, salesColumn, ["title", "dateStart", "dateEnd"]);
   useEffect(() => {
-    console.log("mesa sto ");
     const Init = async () => {
-      console.log(companyOwnerEmail);
-      console.log("called");
-
       const { data } = await getSaleById(userEmail);
       setSales(data);
     };
@@ -96,20 +85,16 @@ function Sales() {
     try {
       if (id === null) return;
       let salesTemp = sales.filter((c) => c.id !== id);
-      console.log("Sales temp:");
-      console.log(salesTemp);
       setSales([...salesTemp]);
       // call the api!!
       await deleteSale(id);
     } catch (e) {
       // delete the store here!!!
       setSales([...salesInitial]);
-      console.log("Error in the handleDelete");
     }
   };
 
   const handleEditClick = (row) => {
-    console.log("Clicked here boy");
     navigate(`/sales/${row.id}`, {
       state: {
         ...row,
@@ -151,26 +136,38 @@ function Sales() {
         <TableContainer key="tableContainer">
           <TableHeader />
           <TableBody>
-            {recordsAfterPaging().map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>{item.dateStart}</TableCell>
-                <TableCell>{item.dateEnd}</TableCell>
-                <TableCell>
-                  <Box display="flex">
-                    <IconButton
-                      onClick={() => handleEditClick(item)}
-                      color="primary"
-                    >
-                      <Edit />
-                    </IconButton>
-                    <IconButton onClick={handleOnDelete}>
-                      <DeleteOutline color="error" />
-                    </IconButton>
-                  </Box>
+            {recordsAfterPaging()?.length === 0 ? (
+              <TableRow>
+                <TableCell align="center" colSpan={4}>
+                  <b>No Results</b>
                 </TableCell>
               </TableRow>
-            ))}
+            ) : (
+              <>
+                {recordsAfterPaging().map((item) => (
+                  <TableRow key={item.id}>
+                    <TableCell>{item.title}</TableCell>
+                    <TableCell>{dateConfiguration(item.dateStart)}</TableCell>
+                    <TableCell>{dateConfiguration(item.dateEnd)}</TableCell>
+                    <TableCell>
+                      <Box display="flex">
+                        <IconButton
+                          onClick={() => handleEditClick(item)}
+                          color="primary"
+                        >
+                          <Edit />
+                        </IconButton>
+                        <IconButton onClick={handleOnDelete}>
+                          <DeleteOutline color="error" />
+                        </IconButton>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </>
+            )}
+
+            {/* */}
           </TableBody>
         </TableContainer>
         <TablePaginationCustom />

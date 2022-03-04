@@ -46,7 +46,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function MenuTile({ item, mobile }) {
-  console.log(item);
   const classes = useStyles();
   // const { tab, changeTab } = useContext(TabContextProvider);
   const { tab, changeTab } = useContext(TabContext);
@@ -85,8 +84,6 @@ export default function MenuTile({ item, mobile }) {
     [classes.menuTileWrapper]: !mobile,
     [classes.active]: item.tab === tab && !mobile,
   });
-  // let classes = mobile ? "" : "menuTileWrapper";
-  // let activeClass = mobile ? "" : "active";
 
   return (
     <Link to={newTab} className={styles} onClick={() => changeTab(item.tab)}>

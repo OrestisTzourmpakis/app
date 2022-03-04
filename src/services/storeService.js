@@ -6,9 +6,6 @@ const apiEndpoint = apiUrl + "/stores/";
 export async function addStore(newStore)
 {
     let addNew = apiEndpoint + "addStore";
-    console.log("bhkeStoStre");
-    // newCompany.applicationUserId = "70fc1d5b-0534-4386-b65e-07c4a8aceecb";
-    // console.log(newCompany);
     const { data } = await http.post(addNew, newStore);
     return data;
 }

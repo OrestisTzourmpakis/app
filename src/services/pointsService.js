@@ -31,8 +31,7 @@ export async function assignUserToCompany()
 
 export async function addPoints(model)
 {
-    console.log("Points addd");
-    console.log(model);
+
     let points = model.euro * model.euroToPointsRatio;
     let addPoints = apiEndpoint + "addPoints";
     model.points = points;
@@ -43,9 +42,6 @@ export async function addPoints(model)
 
 export async function redeemPoints(model)
 {
-    console.log("To model sto redeem!!!");
-    console.log(model);
-    //let points = model.euro * model.euroToPointsRatio;
     let redeemPoints = apiEndpoint + "addPoints";
     model.points = model.redeem*-1;
     const { data } = await http.post(redeemPoints, model);

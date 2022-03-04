@@ -6,7 +6,6 @@ export function TabContextProvider(props) {
   const [tab, setTab] = useState(tabs.Analytics);
 
   const changeTab = (newTab) => {
-    console.log("called!");
     setTab(newTab);
   };
 

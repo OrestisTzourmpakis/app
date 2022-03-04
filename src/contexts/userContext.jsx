@@ -1,12 +1,7 @@
 import React, { createContext, useState } from "react";
 import { useEffect } from "react";
 import { roles, tabs } from "../config.json";
-import {
-  login,
-  logout,
-  checkIfExpired,
-  getUser,
-} from "../services/userAccountService";
+import { login, checkIfExpired, getUser } from "../services/userAccountService";
 import { dashboardMenu } from "../utilities/data";
 
 export function useAuth() {
@@ -18,10 +13,6 @@ export function useAuth() {
     authed: false,
     companyId: null,
   });
-
-  useEffect(() => {
-    console.log("useAuth called");
-  }, []);
 
   // if we are admin
   const [companyOwnerEmail, setCompanyOwnerEmail] = useState(null);
@@ -44,7 +35,6 @@ export function useAuth() {
     const checkIfAdmin = userDetails.roles.filter(
       (c) => c === roles.Administrator || c === roles.CompanyOwner
     );
-    console.log("Check if admin:", checkIfAdmin);
     if (checkIfAdmin.length === 0) throw "Access denied";
     // setJwtUser(userDetails);
     const userRole = checkIfAdmin.includes(roles.Administrator)
@@ -66,8 +56,6 @@ export function useAuth() {
     const check = userDetails.roles.filter(
       (c) => c === roles.Administrator || c === roles.CompanyOwner
     );
-    console.log("To check sto userdetailsobjecxt", check);
-    //if (check.length === 0) throw "Not authorized";
     const role = check.includes(roles.Administrator)
       ? roles.Administrator
       : roles.CompanyOwner;
@@ -83,7 +71,6 @@ export function useAuth() {
   };
 
   const setUserContextObject = (response) => {
-    console.log("To response sto usercontext:", response);
     setAuthed({ ...authed, ...response, authed: true });
   };
   const isAdmin = () => {
@@ -101,7 +88,6 @@ export function useAuth() {
   return {
     authed,
     userLogin,
-    logout,
     setUserContextObject,
     isAdmin,
     menu,
@@ -115,9 +101,6 @@ export function useAuth() {
 export const UserContext = createContext();
 export function UserContextProvider(props) {
   const auth = useAuth();
-  useEffect(() => {
-    console.log("usercontext called!!!");
-  }, []);
 
   return (
     <UserContext.Provider value={{ ...auth }}>

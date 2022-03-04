@@ -4,9 +4,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-
 import RequireAuth from "./utilities/requireAuth";
-import Dashboard from "./pages/dashboard/Dashboard";
 import Stores from "./pages/stores/Stores";
 import Company from "./pages/companies/Company";
 import Users from "./pages/users/users";
@@ -22,11 +20,10 @@ import UserForm from "./pages/users/userForm";
 import UserPoints from "./pages/users/userPoints";
 import PointsForm from "./pages/users/pointsForm";
 import LoginPage from "./pages/login/LoginPage";
-import { Store } from "@material-ui/icons";
-import "./pages/stores/Stores.css";
-import "./pages/stores/Store.css";
+
 import MainPage from "./pages/mainPage";
 import ExternalLoginPage from "./pages/login/externalLoginPage";
+import Analytics from "./pages/analytics/Analytics";
 
 export const mainRoutes = () => (
   <Router>
@@ -44,7 +41,7 @@ export const createRoutes = () => (
       path="/"
       element={
         <RequireAuth>
-          <Dashboard />
+          <Analytics />
         </RequireAuth>
       }
     />

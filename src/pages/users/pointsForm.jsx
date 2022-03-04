@@ -6,7 +6,7 @@ import {
   updatePoints,
   redeemPoints,
 } from "../../services/pointsService";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 
 function PointsForm({ defaultData, formType, redeem }) {
   const {
@@ -16,8 +16,6 @@ function PointsForm({ defaultData, formType, redeem }) {
     updateValue,
     handleDisableInput,
   } = FormInputHook({ defaultData, formType });
-  console.log("Data form data:");
-  console.log(dataForm);
   const redeemForm = redeem ?? false;
   const title = redeemForm ? "Redeem" : null;
   const pointsAddMethod = async (data) => {
@@ -58,7 +56,6 @@ function PointsForm({ defaultData, formType, redeem }) {
   };
 
   const pointsBodyRender = () => {
-    console.log(redeemForm);
     if (redeemForm) {
       return (
         <>

@@ -1,7 +1,6 @@
 import { Notifications, Settings, Menu } from "@material-ui/icons";
 
 import TopbarSection from "./TopbarSection";
-import { useState } from "react";
 import { useAuth, UserContext } from "../../contexts/userContext";
 import { useContext } from "react";
 import { Avatar, Box, Grid, makeStyles, Typography } from "@material-ui/core";
@@ -31,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Topbar({ showMenu, toggle, setToggle }) {
   const classes = useStyles();
   const { authed } = useContext(UserContext);
-  console.log("Sto topbar:", authed);
   const toggleTopbarSection = () => {
     setToggle(!toggle);
   };
@@ -56,8 +54,6 @@ export default function Topbar({ showMenu, toggle, setToggle }) {
           alignItems="center"
           justifyContent="flex-end"
         >
-          <Notifications className={classes.marginRightAndLeft} />
-          <Settings className={classes.marginRightAndLeft} />
           <Box
             display="flex"
             alignItems="center"

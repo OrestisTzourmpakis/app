@@ -7,8 +7,6 @@ import {
   TablePagination,
   TableRow,
   TableSortLabel,
-  TextField,
-  Toolbar,
 } from "@material-ui/core";
 import React from "react";
 import { useState } from "react";
@@ -42,7 +40,6 @@ export default function useTable(records, headCells, searchKeys) {
   const pages = [5, 10, 25];
   const [page, setPage] = useState(0);
   let [filteredRecords, setFilteredRecords] = useState(records);
-  console.log("Ta filtered Records:", filteredRecords);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [search, setSearch] = useState("");
   // order is asc or desc
@@ -52,7 +49,6 @@ export default function useTable(records, headCells, searchKeys) {
 
   useEffect(() => {
     setFilteredRecords(records === null ? [] : records);
-    console.log("Ta records:", records);
   }, [records]);
 
   useEffect(() => {
@@ -62,7 +58,6 @@ export default function useTable(records, headCells, searchKeys) {
       searchKeys.forEach((item) => {
         if (item.avoidSearch) return;
         var showKey = _.get(record, item);
-        console.log(showKey);
         var result = String(_.get(record, item))
           .toLowerCase()
           .includes(search.toLowerCase());
@@ -76,7 +71,6 @@ export default function useTable(records, headCells, searchKeys) {
       return false;
     });
     setFilteredRecords(newFilter);
-    // console.log(search);
   }, [search]);
 
   const TableContainer = (props) => (

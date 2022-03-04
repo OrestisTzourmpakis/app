@@ -1,7 +1,7 @@
 import { DetailsOutlined, Forward } from "@material-ui/icons";
 import React, { useEffect } from "react";
 import FormInput from "../../components/common/formInput";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { addCompany, updateCompany } from "../../services/companyService";
 import {
@@ -41,20 +41,16 @@ export function CompanyForm({ defaultData, formType }) {
   );
 
   useEffect(() => {
-    console.log("changed");
     setRedeemEuroResult(dataForm.details["pointsToEuro"] * redeemPoints);
   }, [redeemPoints]);
 
   useEffect(() => {
-    console.log("changed");
     setEarnPoints(dataForm.details["euroToPoints"] * exchangeEuro);
   }, [exchangeEuro]);
 
   const validations = () => {
     const errors = [];
     const data = { ...dataForm.details };
-    console.log("Ta error data:");
-    console.log(data);
     if (data.name === null || data.name.trim() === "") {
       errors.push("Company name is required");
     }
@@ -86,13 +82,6 @@ export function CompanyForm({ defaultData, formType }) {
             valueChange={updateValue}
             disableInput={disableInput}
           />
-          {/* <FormInput
-            label="Logo"
-            value={dataForm.details["logo"]}
-            objKey="logo"
-            valueChange={updateValue}
-            disableInput={disableInput}
-          /> */}
           <FormInput
             label="Logo"
             value={dataForm.details["logo"]}
@@ -140,7 +129,7 @@ export function CompanyForm({ defaultData, formType }) {
             valueChange={updateValue}
             disableInput={disableInput}
           />
-          <Paper>
+          <Paper elevation={3}>
             <Grid container direction="column">
               <Typography align="center" variant="body1">
                 Loyalty points

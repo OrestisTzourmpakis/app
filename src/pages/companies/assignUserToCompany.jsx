@@ -1,6 +1,6 @@
 import React from "react";
 import FormInput from "../../components/common/formInput";
-import FormTemplate from "../../components/common/formTemplateTest";
+import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { assignUserToCompany } from "../../services/companyService";
 
