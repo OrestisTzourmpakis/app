@@ -17,7 +17,7 @@ function PointsForm({ defaultData, formType, redeem }) {
     handleDisableInput,
   } = FormInputHook({ defaultData, formType });
   const redeemForm = redeem ?? false;
-  const title = redeemForm ? "Redeem" : null;
+  const title = redeemForm ? "Εξαργυρωση" : "Προσθηκη";
   const pointsAddMethod = async (data) => {
     if (redeemForm) {
       await redeemPoints(data);
@@ -59,43 +59,40 @@ function PointsForm({ defaultData, formType, redeem }) {
     if (redeemForm) {
       return (
         <>
-          <h2>Total user points: {dataForm.details["points"]}</h2>
-          <h4>
-            The current ratio for 1 point is :
-            {dataForm.details["pointsToEuroRatio"]}
-            euro
+          <h2 style={{margin:"10px"}}> Ο χρήστης {dataForm.details["username"]} έχει {dataForm.details["points"]} Loyalty πόντους</h2>
+          <h4 style={{margin:"10px"}}>
+            Για κάθε {dataForm.details["pointsToEuroRatio"]} πόντοι αντιστοιχεί 1 €
           </h4>
           <FormInput
-            label="Redeem points"
+            label="Εξαργύρωση Πόντων:"
             value={dataForm.details["redeem"]}
             objKey="redeem"
             type="number"
             valueChange={updateValue}
             disableInput={disableInput}
           />
-          <p>
-            Current euro for the input points are:
-            {dataForm.details["pointsToEuroRatio"] * dataForm.details["redeem"]}
+          <p style={{margin:"10px"}}>
+            Σε ευρώ:
+            {dataForm.details["redeem"] / dataForm.details["pointsToEuroRatio"] } €
           </p>
         </>
       );
     } else {
       return (
         <>
-          <h4>
-            The current ratio for 1 euro is :
-            {dataForm.details["euroToPointsRatio"]} points
+          <h4 style={{margin:"10px"}}>
+            Για κάθε 1 € αντιστοιχεί {dataForm.details["euroToPointsRatio"]} Loyalty πόντοι
           </h4>
           <FormInput
-            label="euro"
+            label="Ευρώ"
             value={dataForm.details["euro"]}
             objKey="euro"
             type="number"
             valueChange={updateValue}
             disableInput={disableInput}
           />
-          <p>
-            Current points for the input euros are:
+          <p style={{margin:"10px"}}>
+            Σε πόντους:
             {dataForm.details["euroToPointsRatio"] * dataForm.details["euro"]}
           </p>
         </>

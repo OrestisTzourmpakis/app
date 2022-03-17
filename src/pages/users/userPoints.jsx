@@ -85,8 +85,10 @@ function UserPoints() {
           <IconButton onClick={() => navigate(-1)}>
             <ArrowBack />
           </IconButton>
-          <Typography variant="body1">User points</Typography>
-          <div></div>
+          <div style={{textAlign:"center", margin:"auto"}}>
+          <Typography variant="h4">Πόντοι Χρήστη</Typography>
+          <Typography variant="body1">({location.state.email})</Typography>
+          </div>
         </Box>
         <Box
           style={{ marginTop: "20px" }}
@@ -118,7 +120,7 @@ function UserPoints() {
                             onClick={() => handleAddRemovePoints(item)}
                             startIcon={<Add />}
                           >
-                            Add Points
+                            Προσθηκη Ποντων
                           </Button>
 
                           <Box display="flex">
@@ -127,7 +129,7 @@ function UserPoints() {
                               color="primary"
                               startIcon={<Add />}
                             >
-                              Redeem
+                              Εξαργυρωση
                             </Button>
                           </Box>
                         </Box>

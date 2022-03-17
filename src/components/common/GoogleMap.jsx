@@ -2,6 +2,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import mapStyles from "../../utilities/mapStyles";
 import { Box, makeStyles, Typography } from "@material-ui/core";
+import config from "../../config.json";
 
 const mapContainerStyle = {
   width: "100%",
@@ -34,7 +35,8 @@ export function GoogleMapContainer({ marker }) {
     lng: marker.lng,
   };
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    // googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: config.REACT_APP_GOOGLE_MAPS_API_KEY,
     libraries: ["places"],
   });
   const classes = useStyles();

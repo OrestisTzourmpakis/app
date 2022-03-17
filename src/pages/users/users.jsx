@@ -34,6 +34,7 @@ function Users() {
   const { openDialog } = useContext(ConfirmationDialogContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const [locationState, setLocationState] = useState();
   const usersColumn = [
     { id: "userName", label: "UserName" },
     { id: "email", label: "Email" },
@@ -59,6 +60,7 @@ function Users() {
           var { data } = await getUsersByCompany(authed.email);
         }
         setUsers(data);
+        setLocationState({ OwnerEmail: authed.email });
       } catch (ex) {}
     };
     Init();
@@ -94,13 +96,32 @@ function Users() {
     });
   };
 
+  const handleAssignUser = () => {
+    navigate(`../stores/assignUser`, { state: locationState });
+  };
+
+
   return (
     <>
       <Container>
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <div></div>
-          <Typography variant="body1">Users</Typography>
-          <Button
+          <Typography variant="h3">Χρηστες</Typography>
+          
+          <Box display="flex">
+          {!admin ?
+            <Button
+              onClick={handleAssignUser}
+              color="primary"
+              startIcon={<Add />}
+              style={{ marginRight: "10px" }}
+              variant="contained"
+              size="small"
+            >
+              Αναθεση Χρηστη 
+            </Button>
+            : <div></div>}
+            <Button
             size="small"
             color="primary"
             startIcon={<Add />}
@@ -109,8 +130,10 @@ function Users() {
               navigate("/users/add");
             }}
           >
-            Add User
+            Προσθηκη Χρηστη
           </Button>
+        </Box>  
+         
         </Box>
         <Box
           style={{ marginTop: "20px" }}

@@ -116,7 +116,7 @@ function Sales() {
         {/* <IconButton onClick={() => navigate(-1)}>
           <ArrowBack />
         </IconButton> */}
-        <Typography variant="body1">Sales</Typography>
+        <Typography variant="h3">Προσφορές</Typography>
         <Button
           onClick={handleAddSale}
           color="primary"
@@ -124,7 +124,7 @@ function Sales() {
           variant="contained"
           size="small"
         >
-          Add Sale
+          Προσθηκη Προσφορας
         </Button>
       </Box>
       <Box

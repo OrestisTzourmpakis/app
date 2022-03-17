@@ -89,6 +89,7 @@ function FormTemplate({
         if (addErrors.length > 0) {
           setErrors([...addErrors]);
         } else {
+          console.log({ ...dataForm.details });
           await addMethod({ ...dataForm.details });
           setShowSnackbar(true);
         }

@@ -19,25 +19,25 @@ export const dashboardMenu = [
     {
       id: 2,
       icon: <TrendingUp className="menuTileIcon" />,
-      title: "Offers",
+      title: "Προσφορές",
       tab: tabs.Sales,
     },
     {
       id: 3,
       icon: <Store className="menuTileIcon" />,
-      title: "Companies",
+      title: "Επιχείρηση",
       tab: tabs.Companies,
     },
     {
       id: 4,
       icon: <PermIdentity className="menuTileIcon" />,
-      title: "Users",
+      title: "Χρήστες",
       tab: tabs.Users,
     },
   {
     id: 5,
     icon: <Store className="menuTileIcon" />,
-    title: "Stores",
+    title: "Καταστήματα",
     tab: tabs.Stores,
   },
   ];

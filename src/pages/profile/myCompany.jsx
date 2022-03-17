@@ -101,22 +101,29 @@ function MyComapny({}) {
               valueChange={updateValue}
               disableInput={disableInput}
             />
+            
+            <h3 style={{margin:"0px 10px"}}>Πόντοι Loyalty ανά Ευρώ</h3>
+            <hr/>
             <FormInput
-              label="Points to Euro"
+              label="EΞΑΡΓΥΡΩΣΗ:"
               value={dataForm.details["pointsToEuro"]}
               objKey="pointsToEuro"
               valueChange={updateValue}
               type="number"
               disableInput={disableInput}
             />
+            <p style={{margin:"0px 10px"}}>Για κάθε {dataForm.details["pointsToEuro"]} πόντους εξαργυρώνεται 1 €</p>
+            <hr/>
             <FormInput
-              label="Euro to Points"
+              label="ΑΝΑΘΕΣΗ:"
               value={dataForm.details["euroToPoints"]}
               objKey="euroToPoints"
               valueChange={updateValue}
               type="number"
               disableInput={disableInput}
             />
+            <p style={{margin:"0px 10px"}}>Για κάθε 1 € ανατίθενται {dataForm.details["euroToPoints"]} πόντοι</p>
+            <hr/>
           </div>
         </div>
       </FormTemplate>

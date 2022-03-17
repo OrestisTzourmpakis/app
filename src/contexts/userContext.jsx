@@ -52,6 +52,7 @@ export function useAuth() {
     setAuthed({ ...userObject, authed: true });
   };
 
+
   const userDetailObject = (userDetails) => {
     const check = userDetails.roles.filter(
       (c) => c === roles.Administrator || c === roles.CompanyOwner

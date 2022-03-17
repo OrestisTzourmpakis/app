@@ -22,6 +22,8 @@ export async function addSale(newSale)
     formData.append("description", newSale.description);
     formData.append("email", newSale.email);
     let addNew = apiEndpoint + "addSale";
+    console.log("addNew: "+addNew);
+    console.log("formData: "+formData);
     const { data } = await http.post(addNew, formData);
     return data;
 }

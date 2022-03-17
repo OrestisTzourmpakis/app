@@ -112,7 +112,7 @@ export default function Stores() {
           <div></div>
         )}
 
-        <Typography variant="body1">Stores</Typography>
+        <Typography variant="h3">Καταστήματα</Typography>
         <Box display="flex">
           <Button
             onClick={handleAssignUser}
@@ -122,7 +122,7 @@ export default function Stores() {
             variant="contained"
             size="small"
           >
-            Assign User
+            Αναθεση Χρηστη 
           </Button>
           <Button
             onClick={handleAddStore}
@@ -131,7 +131,7 @@ export default function Stores() {
             variant="contained"
             size="small"
           >
-            Add Store
+            Προσθηκη Καταστηματος
           </Button>
         </Box>
       </Box>

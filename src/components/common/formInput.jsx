@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "5px",
       fontSize: "15px",
       resize: "none",
-      color: "rgb(120,130,146)",
+      color: "rgb(120,130,146)"
     },
     "& img": {
       width: "80px",
@@ -80,6 +80,7 @@ function FormInput({
               disabled={disableInput ? true : false}
               onChange={handleOnChange}
               min={minPrice}
+              style={{width:"20px",}}
             />
           </>
         );
@@ -145,7 +146,7 @@ function FormInput({
         justifyContent="space-between"
       >
         <Typography
-          style={{ fontWeight: "600", marginBottom: "5px" }}
+          style={{ fontWeight: "600", marginBottom: "5px",display:"flex" }}
           variant="body1"
         >
           {label}

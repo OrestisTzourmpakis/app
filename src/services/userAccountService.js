@@ -12,6 +12,7 @@ export async function login(model)
     return result.data;
 }
 
+
 export async function register(user) {
     let registerUser = apiEndpoint +"registerfromadmin";
     const result = await http.post(registerUser,user);

@@ -9,6 +9,7 @@ import _ from "lodash";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { useContext } from "react";
 import { UserContext } from "../../contexts/userContext";
+import config from "../../config.json";
 import {
   Box,
   Button,
@@ -24,6 +25,7 @@ import { GoogleMapContainer } from "../../components/common/GoogleMap";
 
 function StoresForm({ defaultData, formType }) {
   Geocode.setApiKey(process.env.REACT_APP_GOOGLE_MAPS_API_KEY);
+  Geocode.setApiKey(config.REACT_APP_GOOGLE_MAPS_API_KEY);
   const { authed } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const location = useLocation();

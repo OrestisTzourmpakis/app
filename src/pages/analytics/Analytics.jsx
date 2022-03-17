@@ -113,9 +113,11 @@ export default function Analytics() {
         const top30Users = await getTop30Users(userEmail);
         setTop30Users(top30Users.data);
         if (isAdmin()) {
-          last6Months = [...last6MonthsAdmin];
-          totalPoints = [...totalRedeemAdmin];
-          setLast6Months(last6Months);
+          last6Months = await getLast6Months(authed.email);          
+          // last6Months = [...last6MonthsAdmin];
+          // totalPoints = [...totalRedeemAdmin];
+          // console.log(last6Months);
+          setLast6Months(last6Months.data);
         } else {
           last6Months = await getLast6Months(userEmail);
           setLast6Months(last6Months.data);
@@ -146,7 +148,7 @@ export default function Analytics() {
         </Grid>
         <Grid item md={4} xs={12}>
           <WidgetLg
-            title="Active Sales"
+            title="Active Offers"
             style={{
               background: "linear-gradient(#005c97, #363795)",
             }}
@@ -208,7 +210,7 @@ export default function Analytics() {
           <Grid item xs={12}>
             <Box display="flex" alignItems="center" flexDirection="column">
               <Typography variant="h5" style={{ marginBottom: "30px" }}>
-                Total Earned and Redeem Points in the last 6 Monhts
+                Total Earned and Redeem Points in the last 6 Months
               </Typography>
               <BarChart width={700} height={300} data={last6Months}>
                 <CartesianGrid strokeDasharray="3 3" />

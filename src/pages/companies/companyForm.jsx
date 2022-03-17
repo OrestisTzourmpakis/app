@@ -41,7 +41,7 @@ export function CompanyForm({ defaultData, formType }) {
   );
 
   useEffect(() => {
-    setRedeemEuroResult(dataForm.details["pointsToEuro"] * redeemPoints);
+    setRedeemEuroResult(redeemPoints / dataForm.details["pointsToEuro"]);
   }, [redeemPoints]);
 
   useEffect(() => {
@@ -205,7 +205,7 @@ export function CompanyForm({ defaultData, formType }) {
                   key="euroResult"
                   id="totalEuroResult"
                   size="small"
-                  label="Total Euro"
+                  label="Total Points"
                   type="number"
                   value={earnPoints}
                   disabled

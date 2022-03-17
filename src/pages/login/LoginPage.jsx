@@ -56,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: applicationColors.greenBgHover,
     },
+    padding:"10px 100px"
   },
   signInGoogle: {
     backgroundColor: "white",
@@ -185,13 +186,7 @@ export default function LoginPage() {
                   name="viewUrl"
                   value={window.location.origin.toString()}
                 />
-                <Typography
-                  align="center"
-                  style={{ color: "black" }}
-                  variant="h4"
-                >
-                  Or
-                </Typography>
+
                 <Box
                   display="flex"
                   style={{ marginTop: "10px" }}
