@@ -33,6 +33,7 @@ import {
   Tooltip,
   XAxis,
   YAxis,
+  ResponsiveContainer
 } from "recharts";
 import { makeStyles } from "@material-ui/styles";
 import { dateConfiguration } from "../../utilities/dataConfiguration";
@@ -45,6 +46,7 @@ const useStyles = makeStyles((theme) => ({
   verticalChartWrapper: {},
 }));
 export default function Analytics() {
+  
   const { isAdmin, authed } = useContext(UserContext);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalStores, setTotalStores] = useState(0);
@@ -101,6 +103,7 @@ export default function Analytics() {
     },
   ];
 
+  
   useEffect(() => {
     const Init = async () => {
       try {
@@ -212,7 +215,8 @@ export default function Analytics() {
               <Typography variant="h5" style={{ marginBottom: "30px" }}>
                 Total Earned and Redeem Points in the last 6 Months
               </Typography>
-              <BarChart width={700} height={300} data={last6Months}>
+              <ResponsiveContainer width="100%" height={300}>
+              <BarChart width="95%"  height={300} data={last6Months}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="name"
@@ -227,6 +231,7 @@ export default function Analytics() {
                 <Bar dataKey="redeemed" fill="#8884d8" />
                 <Bar dataKey="earned" fill="#82ca9d" />
               </BarChart>
+              </ResponsiveContainer>
             </Box>
           </Grid>
         </Grid>

@@ -103,7 +103,7 @@ export default function Stores() {
 
   return (
     <Container>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box display="flex" justifyContent="space-between" flexWrap="wrap" alignItems="center" className="responsiveTitle">
         {admin ? (
           <IconButton onClick={() => navigate(-1)}>
             <ArrowBack />

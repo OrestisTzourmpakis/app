@@ -20,6 +20,9 @@ const useStyles = makeStyles((theme) => ({
     marginTop: "10px",
     [theme.breakpoints.down("sm")]: {
       minWidth: "auto",
+      width:"100%",
+    display:"block",
+    overflowX:"auto"
     },
     "& thead th": {
       fontWeight: "600",
@@ -32,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
     "& tbody tr:hover": {
       cursor: "pointer",
     },
+    
   },
 }));
 

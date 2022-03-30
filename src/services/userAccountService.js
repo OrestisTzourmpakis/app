@@ -7,7 +7,7 @@ const tokenKey = "token";
 const userObject = "user";
 export async function login(model)
 {
-    let login = apiEndpoint +"loginAdmin";
+    let login = apiEndpoint +"loginAdmin"; 
     const result = await http.post(login,model,{widthCredentials:true});
     return result.data;
 }
@@ -30,4 +30,10 @@ export async function checkUserRole(email)
     let checkUser = apiEndpoint + `checkRole?email=${email}`;
     const { data } = await http.get(checkUser);
     return data;
+}
+
+export async function requestResetPassword(email)
+{
+    let resetPassword = apiEndpoint + `requestResetPassword?email=${email}`;
+    const result = await http.get(resetPassword);
 }

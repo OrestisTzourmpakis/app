@@ -36,7 +36,7 @@ function Users() {
   const navigate = useNavigate();
   const [locationState, setLocationState] = useState();
   const usersColumn = [
-    { id: "userName", label: "UserName" },
+    // { id: "userName", label: "UserName" },
     { id: "email", label: "Email" },
     { id: "actions", label: "Actions", avoidSearch: true },
   ];
@@ -45,7 +45,7 @@ function Users() {
     TableHeader,
     TablePaginationCustom,
     recordsAfterPaging,
-  } = useTable(users, usersColumn, ["userName", "email"]);
+  } = useTable(users, usersColumn, ["email"]);
 
   useEffect(() => {
     const Init = async () => {
@@ -104,7 +104,7 @@ function Users() {
   return (
     <>
       <Container>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
+        <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center" className="responsiveTitle">
           <div></div>
           <Typography variant="h3">Χρηστες</Typography>
           
@@ -154,7 +154,7 @@ function Users() {
                 <>
                   {recordsAfterPaging().map((item) => (
                     <TableRow key={item.id}>
-                      <TableCell>{item.userName}</TableCell>
+                      {/* <TableCell>{item.userName}</TableCell> */}
                       <TableCell>{item.email}</TableCell>
                       <TableCell>
                         <Box display="flex" alignItems="center">

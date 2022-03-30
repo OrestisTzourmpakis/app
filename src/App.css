@@ -44,3 +44,31 @@
 .sidebarLightGrayBg {
   background-color: rgb(120, 130, 146);
 }
+
+
+body {
+  width: 100%
+}
+.grandparent {
+  width: 100%
+}
+.parent {
+  width: 100%
+}
+.tableContainer {
+  width: 100%
+}
+
+@media only screen and (max-width: 641px) {
+  .responsiveTitle{
+    justify-content: center!important;
+  }
+ 
+}
+
+/* .table {
+  width:"95%";
+  display :"block";
+  overflow-x: "auto";
+  } */
+

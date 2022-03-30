@@ -6,7 +6,6 @@ const apiEndpoint = apiUrl + "/useraccount/";
 export async function getAllUsers()
 {
     let users = apiEndpoint + "getAllUsers";
-    console.log(http);
     const { data } = await http.get(users);
     return data;
 }

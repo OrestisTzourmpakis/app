@@ -25,6 +25,7 @@ function MainPage() {
     const Init = async () => {
       if (authed.email === "") {
         try {
+          console.log("------------------> Check MainaPage");
           const response = await authenticateUser();
           if (response.roles.length === 0) throw "asdfasdf";
           const obj = userDetailObject(response);

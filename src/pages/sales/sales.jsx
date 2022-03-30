@@ -21,6 +21,7 @@ import {
   TableCell,
   TableRow,
   Typography,
+  Grid
 } from "@material-ui/core";
 import { Edit, DeleteOutline, ArrowBack, Add } from "@material-ui/icons";
 import { red } from "@material-ui/core/colors";
@@ -102,9 +103,10 @@ function Sales() {
     });
   };
 
+  
   return (
     <Container>
-      <Box display="flex" justifyContent="space-between" alignItems="center">
+      <Box display="flex" flexWrap="wrap" justifyContent="space-between" alignItems="center" className="responsiveTitle">
         {admin ? (
           <IconButton onClick={() => navigate(-1)}>
             <ArrowBack />
@@ -133,7 +135,8 @@ function Sales() {
         flexDirection="column"
         justifyContent="center"
       >
-        <TableContainer key="tableContainer">
+        <Grid item xs={12}>
+        <TableContainer key="tableContainer" className="table" style={{overflowX:"auto"}}>
           <TableHeader />
           <TableBody>
             {recordsAfterPaging()?.length === 0 ? (
@@ -170,6 +173,7 @@ function Sales() {
             {/* */}
           </TableBody>
         </TableContainer>
+        </Grid>
         <TablePaginationCustom />
       </Box>
     </Container>
