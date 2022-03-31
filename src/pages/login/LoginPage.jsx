@@ -1,16 +1,22 @@
-import { Person, Lock } from "@material-ui/icons";
+import { Person, Lock, Facebook } from "@material-ui/icons";
 import LoginCustomInput from "./LoginCustomInput";
 import { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleErrors } from "../../utilities/handleErrors";
 import { UserContext } from "../../contexts/userContext";
 import { useLocation } from "react-router-dom";
-import { Box, Button, makeStyles, Paper, Typography, TextField } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  makeStyles,
+  Paper,
+  Typography,
+  TextField,
+} from "@material-ui/core";
 import { applicationColors, apiUrl } from "../../config.json";
 import { authenticateUser } from "../../services/userService";
-import Modal from '@material-ui/core/Modal';
+import Modal from "@material-ui/core/Modal";
 import { requestResetPassword } from "../../services/userAccountService";
-
 
 const useStyles = makeStyles((theme) => ({
   boxWrapper: {
@@ -59,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: applicationColors.greenBgHover,
     },
-    padding: "10px 100px"
+    padding: "10px 100px",
   },
   signInGoogle: {
     backgroundColor: "white",
@@ -77,13 +83,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -118,10 +124,10 @@ export default function LoginPage() {
     handleOpen();
   };
 
-  const handleResetPasswordButton = async ()=>{
+  const handleResetPasswordButton = async () => {
     const result = await requestResetPassword(forgotEmail);
     setForgotPassRespond("A reset email was send. Check your emails ");
-  }
+  };
 
   useEffect(() => {
     const Init = async () => {
@@ -129,7 +135,7 @@ export default function LoginPage() {
         const result = await authenticateUser();
         if (result.roles.length === 0) return;
         navigate("/");
-      } catch (ex) { }
+      } catch (ex) {}
       if (location.state === null) return;
       setErrors([location.state.error.ex]);
     };
@@ -208,7 +214,7 @@ export default function LoginPage() {
               <form
                 className="googleForm"
                 method="GET"
-                action={`${apiUrl}/useraccount/googlelogin`}
+                action={`${apiUrl}/useraccount/externalLoginRequest`}
               >
                 <input
                   type="hidden"
@@ -222,6 +228,7 @@ export default function LoginPage() {
                   justifyContent="center"
                 >
                   <Button
+                    style={{ width: "300px" }}
                     className={classes.signInGoogle}
                     variant="contained"
                     type="submit"
@@ -232,6 +239,43 @@ export default function LoginPage() {
                       width={30}
                     />
                     <Typography variant="body1">Sign in with Google</Typography>
+                  </Button>
+                </Box>
+              </form>
+            </Box>
+            <Box display="flex" flexDirection="column">
+              <form
+                className="facebookForm"
+                method="GET"
+                //window.location.origin.toString()
+                action={`${apiUrl}/useraccount/externalLoginRequest`}
+              >
+                <input
+                  type="hidden"
+                  name="viewUrl"
+                  value={window.location.origin.toString()}
+                />
+                <input type="hidden" name="provider" value="Facebook" />
+                <Box
+                  display="flex"
+                  style={{ marginTop: "10px" }}
+                  justifyContent="center"
+                >
+                  <Button
+                    style={{ width: "300px" }}
+                    className={classes.signInGoogle}
+                    variant="contained"
+                    type="submit"
+                  >
+                    <Facebook
+                      fontSize="large"
+                      style={{ width: "40px", marginLeft: "14px" }}
+                      color="primary"
+                    />
+
+                    <Typography variant="body1" style={{ marginLeft: "5px" }}>
+                      Sign in with Facebook
+                    </Typography>
                   </Button>
                 </Box>
                 <Box display="flex" justifyContent="center">
@@ -265,12 +309,12 @@ export default function LoginPage() {
             value={forgotEmail}
           />
           <Button
-                    onClick={handleResetPasswordButton}
-                    style={{ marginTop: "20px" }}
-                    color="primary"
-                  >
-                    Reset Password
-                  </Button>
+            onClick={handleResetPasswordButton}
+            style={{ marginTop: "20px" }}
+            color="primary"
+          >
+            Reset Password
+          </Button>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {forgotPassRespond}
           </Typography>
