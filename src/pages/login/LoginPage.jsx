@@ -244,7 +244,7 @@ export default function LoginPage() {
                 </Box>
               </form>
             </Box>
-            <Box display="flex" flexDirection="column">
+            {/* <Box display="flex" flexDirection="column">
               <form
                 className="facebookForm"
                 method="GET"
@@ -279,7 +279,10 @@ export default function LoginPage() {
                     </Typography>
                   </Button>
                 </Box>
-                <Box display="flex" justifyContent="center">
+                
+              </form>
+            </Box> */}
+            <Box display="flex" justifyContent="center">
                   <Button
                     onClick={handleResetPassword}
                     style={{ marginTop: "20px" }}
@@ -288,8 +291,6 @@ export default function LoginPage() {
                     Reset Password
                   </Button>
                 </Box>
-              </form>
-            </Box>
           </Box>
         </Paper>
       </Box>
