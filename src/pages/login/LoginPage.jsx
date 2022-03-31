@@ -221,6 +221,7 @@ export default function LoginPage() {
                   name="viewUrl"
                   value={window.location.origin.toString()}
                 />
+                <input type="hidden" name="provider" value="Google" />
 
                 <Box
                   display="flex"
