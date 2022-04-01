@@ -24,6 +24,8 @@ import LoginPage from "./pages/login/LoginPage";
 import MainPage from "./pages/mainPage";
 import ExternalLoginPage from "./pages/login/externalLoginPage";
 import Analytics from "./pages/analytics/Analytics";
+import Categories from "./pages/categories/Categories";
+import CategoryForm from "./pages/categories/categoryForm";
 
 export const mainRoutes = () => (
   <Router>
@@ -62,6 +64,14 @@ export const createRoutes = () => (
       }
     />
     <Route
+      path="categories"
+      element={
+        <RequireAuth admin={true}>
+          <Categories />
+        </RequireAuth>
+      }
+    />
+    <Route
       path="users"
       element={
         <RequireAuth>
@@ -74,6 +84,19 @@ export const createRoutes = () => (
       element={
         <RequireAuth>
           <Sales />
+        </RequireAuth>
+      }
+    />
+    <Route
+      path={`categories/:categoryId`}
+      element={
+        <RequireAuth admin={true}>
+          <CategoryForm
+            defaultData={{
+              name: "",
+            }}
+            formType={formTypes.view}
+          />
         </RequireAuth>
       }
     />
@@ -106,6 +129,19 @@ export const createRoutes = () => (
               dateStart: 0,
               dateEnd: 0,
               imageFile: null,
+            }}
+            formType={formTypes.add}
+          />
+        </RequireAuth>
+      }
+    />
+    <Route
+      path="categories/add"
+      element={
+        <RequireAuth admin={true}>
+          <CategoryForm
+            defaultData={{
+              name: "",
             }}
             formType={formTypes.add}
           />
@@ -174,6 +210,7 @@ export const createRoutes = () => (
               instagram: "",
               facebook: "",
               ownerEmail: "",
+              categoryId: null,
               pointsToEuro: 0,
               euroToPoints: 0,
             }}
@@ -213,6 +250,7 @@ export const createRoutes = () => (
               instagram: "",
               facebook: "",
               ownerEmail: "",
+              categoryId: null,
               pointsToEuro: 0,
               euroToPoints: 0,
             }}

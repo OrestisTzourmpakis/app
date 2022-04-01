@@ -1,4 +1,12 @@
-import { Box, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  makeStyles,
+  Menu,
+  MenuItem,
+  Select,
+  Typography,
+} from "@material-ui/core";
+import _ from "lodash";
 import React from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius: "5px",
       fontSize: "15px",
       resize: "none",
-      color: "rgb(120,130,146)"
+      color: "rgb(120,130,146)",
     },
     "& img": {
       width: "80px",
@@ -35,12 +43,17 @@ function FormInput({
   updateImage,
   imageName,
   imageFile,
+  selectList,
+  selectValueKey,
+  selectNameKey,
 }) {
   const inputType = type ?? "text";
   const classes = useStyles();
   const handleOnChange = (e) => {
     if (inputType === "checkbox") {
       valueChange(objKey, e.target.checked);
+    } else if (inputType === "select") {
+      valueChange(objKey, e.target.value);
     } else {
       if (maxPrice) {
         if (e.currentTarget.value > maxPrice) return;
@@ -80,7 +93,7 @@ function FormInput({
               disabled={disableInput ? true : false}
               onChange={handleOnChange}
               min={minPrice}
-              style={{width:"20px",}}
+              style={{ width: "20px" }}
             />
           </>
         );
@@ -122,6 +135,26 @@ function FormInput({
             onChange={handleOnChange}
           />
         );
+      case "select":
+        console.log("To value poio einai?:", value);
+        return (
+          <Select
+            style={{ width: "100%" }}
+            value={value}
+            onChange={handleOnChange}
+            disabled={disableInput ? true : false}
+          >
+            <MenuItem value={null}>None</MenuItem>
+            {selectList?.map((model) => (
+              <MenuItem
+                key={_.get(model, selectValueKey)}
+                value={_.get(model, selectValueKey)}
+              >
+                {_.get(model, selectNameKey)}
+              </MenuItem>
+            ))}
+          </Select>
+        );
       default:
         return (
           <>
@@ -146,7 +179,7 @@ function FormInput({
         justifyContent="space-between"
       >
         <Typography
-          style={{ fontWeight: "600", marginBottom: "5px",display:"flex" }}
+          style={{ fontWeight: "600", marginBottom: "5px", display: "flex" }}
           variant="body1"
         >
           {label}

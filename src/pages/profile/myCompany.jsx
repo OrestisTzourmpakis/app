@@ -9,11 +9,13 @@ import { formTypes } from "../../config.json";
 import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import FormInput from "../../components/common/formInput";
+import { getCategories } from "../../services/categoriesService";
 
 function MyComapny({}) {
   const { authed } = useContext(UserContext);
   const formType = formTypes.view;
   const [data, setData] = useState({});
+  const [categories, setCategories] = useState([]);
   const {
     dataForm,
     setDataForm,
@@ -24,7 +26,10 @@ function MyComapny({}) {
   useEffect(() => {
     const Init = async () => {
       if (authed.email === "") return;
+      const { data } = await getCategories();
+      setCategories(data);
       const dataResponse = await getCompanyByUserEmail(authed.email);
+      console.log("To mycompany:", dataResponse);
       dataResponse.ownerEmail = dataResponse.owner.email;
       dataResponse.pointsToEuro = dataResponse.pointsToEuroRatio;
       dataResponse.euroToPoints = dataResponse.euroToPointsRatio;
@@ -36,6 +41,7 @@ function MyComapny({}) {
     };
     Init();
   }, [authed]);
+
   const updateImage = (imageName, imageFile) => {
     setDataForm({
       ...dataForm,
@@ -74,6 +80,21 @@ function MyComapny({}) {
               imageFile={dataForm.details["logoFile"]}
             />
             <FormInput
+              label="Category"
+              type="select"
+              value={
+                dataForm.details["categoryId"]
+                  ? dataForm.details["categoryId"]
+                  : null
+              }
+              objKey="categoryId"
+              valueChange={updateValue}
+              disableInput={disableInput}
+              selectValueKey="id"
+              selectNameKey="name"
+              selectList={categories}
+            />
+            <FormInput
               label="Website"
               value={dataForm.details["website"]}
               objKey="website"
@@ -101,9 +122,9 @@ function MyComapny({}) {
               valueChange={updateValue}
               disableInput={disableInput}
             />
-            
-            <h3 style={{margin:"0px 10px"}}>Πόντοι Loyalty ανά Ευρώ</h3>
-            <hr/>
+
+            <h3 style={{ margin: "0px 10px" }}>Πόντοι Loyalty ανά Ευρώ</h3>
+            <hr />
             <FormInput
               label="EΞΑΡΓΥΡΩΣΗ:"
               value={dataForm.details["pointsToEuro"]}
@@ -112,8 +133,11 @@ function MyComapny({}) {
               type="number"
               disableInput={disableInput}
             />
-            <p style={{margin:"0px 10px"}}>Για κάθε {dataForm.details["pointsToEuro"]} πόντους εξαργυρώνεται 1 €</p>
-            <hr/>
+            <p style={{ margin: "0px 10px" }}>
+              Για κάθε {dataForm.details["pointsToEuro"]} πόντους εξαργυρώνεται
+              1 €
+            </p>
+            <hr />
             <FormInput
               label="ΑΝΑΘΕΣΗ:"
               value={dataForm.details["euroToPoints"]}
@@ -122,8 +146,10 @@ function MyComapny({}) {
               type="number"
               disableInput={disableInput}
             />
-            <p style={{margin:"0px 10px"}}>Για κάθε 1 € ανατίθενται {dataForm.details["euroToPoints"]} πόντοι</p>
-            <hr/>
+            <p style={{ margin: "0px 10px" }}>
+              Για κάθε 1 € ανατίθενται {dataForm.details["euroToPoints"]} πόντοι
+            </p>
+            <hr />
           </div>
         </div>
       </FormTemplate>

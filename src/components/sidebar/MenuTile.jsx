@@ -75,6 +75,9 @@ export default function MenuTile({ item, mobile }) {
     case tabs.Companies:
       newTab = "/companies";
       break;
+    case tabs.Categories:
+      newTab = "/categories";
+      break;
     default:
       newTab = "/";
       break;

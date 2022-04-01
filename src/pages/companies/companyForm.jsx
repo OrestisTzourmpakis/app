@@ -4,6 +4,7 @@ import FormInput from "../../components/common/formInput";
 import FormTemplate from "../../components/common/formTemplate";
 import { FormInputHook } from "../../utilities/formInputHook";
 import { addCompany, updateCompany } from "../../services/companyService";
+import { getCategories } from "../../services/categoriesService";
 import {
   Box,
   Divider,
@@ -31,6 +32,7 @@ export function CompanyForm({ defaultData, formType }) {
   };
 
   const [redeemPoints, setRedeemPoints] = useState(1);
+  const [categories, setCategories] = useState([]);
   const [redeemEuroResult, setRedeemEuroResult] = useState(
     dataForm.details["pointsToEuro"] * redeemPoints
   );
@@ -39,6 +41,14 @@ export function CompanyForm({ defaultData, formType }) {
   const [earnPoints, setEarnPoints] = useState(
     dataForm.details["euroToPoints"] * exchangeEuro
   );
+
+  useEffect(() => {
+    const Init = async () => {
+      const { data } = await getCategories();
+      setCategories(data);
+    };
+    Init();
+  }, []);
 
   useEffect(() => {
     setRedeemEuroResult(redeemPoints / dataForm.details["pointsToEuro"]);
@@ -93,6 +103,18 @@ export function CompanyForm({ defaultData, formType }) {
             handleImageUpdate={updateImage}
             imageName={dataForm.details["logo"]}
             imageFile={dataForm.details["logoFile"]}
+            selectList={[]}
+          />
+          <FormInput
+            label="Category"
+            type="select"
+            value={dataForm.details["categoryId"]}
+            objKey="categoryId"
+            valueChange={updateValue}
+            disableInput={disableInput}
+            selectValueKey="id"
+            selectNameKey="name"
+            selectList={categories}
           />
           <FormInput
             label="Website"

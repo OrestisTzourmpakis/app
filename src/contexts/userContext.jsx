@@ -26,7 +26,11 @@ export function useAuth() {
         )
       );
     } else {
-      setMenu(dashboardMenu.filter((c) => c.tab !== tabs.Companies));
+      setMenu(
+        dashboardMenu.filter(
+          (c) => c.tab !== tabs.Companies && c.tab !== tabs.Categories
+        )
+      );
     }
   }, [authed]);
 
@@ -51,7 +55,6 @@ export function useAuth() {
     // setUser(userObject);
     setAuthed({ ...userObject, authed: true });
   };
-
 
   const userDetailObject = (userDetails) => {
     const check = userDetails.roles.filter(

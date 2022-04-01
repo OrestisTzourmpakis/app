@@ -26,7 +26,9 @@ export async function addCompany(newCompany)
     formData.append("facebook",newCompany.facebook);
     formData.append("euroToPointsRatio",newCompany.euroToPointsRatio);
     formData.append("pointsToEuroRatio",newCompany.pointsToEuro);
-    formData.append("email",newCompany.ownerEmail);
+    formData.append("email", newCompany.ownerEmail);
+    formData.append("categoryId",newCompany.categoryId);
+    
     let addNew = apiEndpoint + "addCompany";
     const { data } = await http.post(addNew, formData);
     return data;
@@ -54,7 +56,8 @@ export async function updateCompany(company)
     formData.append("facebook",company.facebook);
     formData.append("euroToPointsRatio",company.euroToPointsRatio);
     formData.append("pointsToEuroRatio", company.pointsToEuro);
-    formData.append("ownerEmail",company.ownerEmail);
+    formData.append("ownerEmail", company.ownerEmail);
+    formData.append("categoryId",company.categoryId);
     let updateCompany = apiEndpoint + `updateCompany`;
     const { data } = await http.put(updateCompany, formData);
     return data;

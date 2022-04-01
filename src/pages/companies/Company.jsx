@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { TabContext } from "../../contexts/tabContext";
 import { tabs } from "../../config.json";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getAllCompanies, deleteCompany } from "../../services/companyService";
 import {
   Box,
@@ -20,6 +20,7 @@ import {
   DeleteOutline,
   Add,
   Loyalty,
+  ArrowBack,
 } from "@material-ui/icons";
 import { ConfirmationDialogContext } from "../../contexts/confirmationDialogContext";
 import useTable from "../../components/common/useTable";
@@ -27,12 +28,15 @@ import { UserContext } from "../../contexts/userContext";
 
 function Company() {
   const [companies, setCompanies] = useState([]);
+  const [fromCategories, setFromCategories] = useState(false);
   const { changeTab } = useContext(TabContext);
   const { openDialog } = useContext(ConfirmationDialogContext);
   const { changeCompanyOnwer } = useContext(UserContext);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const companiesColumn = [
     { id: "name", label: "Name" },
+    { id: "category", label: "Category" },
     { id: "ownerEmail", label: "Owner" },
     { id: "actions", label: "Actions", avoidSearch: true },
   ];
@@ -46,7 +50,13 @@ function Company() {
   useEffect(async () => {
     changeTab(tabs.Companies);
     const { data } = await getAllCompanies();
-    setCompanies(data);
+    const categoryId = searchParams.get("category");
+    if (categoryId !== null) {
+      setFromCategories(true);
+      setCompanies(data.filter((c) => c.categoryId === parseInt(categoryId)));
+    } else {
+      setCompanies(data);
+    }
   }, []);
 
   const handleEditClick = (stateDemo) => {
@@ -92,7 +102,13 @@ function Company() {
   return (
     <Container>
       <Box display="flex" justifyContent="space-between" alignItems="center">
-        <div></div>
+        {fromCategories ? (
+          <IconButton onClick={() => navigate(-1)}>
+            <ArrowBack />
+          </IconButton>
+        ) : (
+          <div></div>
+        )}
         <Typography variant="body1">Companies</Typography>
         <Button
           onClick={() => navigate("/companies/add")}
@@ -124,6 +140,9 @@ function Company() {
                 {recordsAfterPaging().map((item) => (
                   <TableRow key={item.id}>
                     <TableCell>{item.name}</TableCell>
+                    <TableCell>
+                      {item.category ? item.category : "None"}
+                    </TableCell>
                     <TableCell>
                       {item.ownerEmail ? item.ownerEmail : "Not found"}
                     </TableCell>

@@ -7,16 +7,17 @@
     "Users": 4,
     "Product Sales": 5,
     "Reports": 6,
-    "Stores": 7
+    "Stores": 7,
+    "Categories": 8
   },
   "roles": {
     "Administrator": "Administrator",
     "CompanyOwner": "CompanyOwner"
   },
-  
+
   "apiUrl": "https://localhost:4004/api",
-  
-  "REACT_APP_GOOGLE_MAPS_API_KEY":"AIzaSyAt_x65lkmdSXWb6lDFO_9BpJyExi8sbGg",
+
+  "REACT_APP_GOOGLE_MAPS_API_KEY": "AIzaSyAt_x65lkmdSXWb6lDFO_9BpJyExi8sbGg",
   "formTypes": {
     "add": 0,
     "edit": 1,

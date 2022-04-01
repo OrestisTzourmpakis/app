@@ -6,6 +6,7 @@ import {
     Timeline,
     AttachMoney,
     BarChart,
+    Category,
 } from "@material-ui/icons";
 import { tabs } from "../config.json";
 
@@ -39,5 +40,11 @@ export const dashboardMenu = [
     icon: <Store className="menuTileIcon" />,
     title: "Καταστήματα",
     tab: tabs.Stores,
+  },
+  {
+    id: 6,
+    icon: <Category className="menuTileIcon" />,
+    title: "Κατηγορίες",
+    tab: tabs.Categories,
   },
   ];
